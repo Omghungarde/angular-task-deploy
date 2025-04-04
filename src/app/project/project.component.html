@@ -1,0 +1,106 @@
+<div class="card">
+    <h2>Projects</h2>
+    <div class="card-body">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th>Program Manager</th>
+              <th>Project Manager</th>
+              <th>Start Date</th>
+              <th>Due Date</th>
+              <th>End Date</th>
+              <th>Team Members</th>
+              <th>Team Size</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of projects">
+              <td (click)="openTask(project.id)" style="cursor:pointer;">{{ project.title }}</td>
+              <td>{{ project.description }}</td>
+              <td class="status-cell">
+                <span [class]="statusService.getStatusClass(project.status)">
+                  {{ project.status }}
+                </span>
+              </td>
+              <td>{{ project.createdBy }}</td>
+              <td>{{ project.programManager }}</td>
+              <td>{{ project.projectManager }}</td>
+              <td>{{ project.startDate }}</td>
+              <td>{{ calculateDueDays(project.dueDate) }}</td>
+  
+              <td>{{ project.endDate }}</td>
+              <td>{{ project.teamMembers.join(', ') }}</td>
+              <td>{{ project.teamMembers.length }}</td>
+              <td>
+                <button class="edit-btn" (click)="openModal(true, project)">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="delete-btn" (click)="deleteProject(project.id); $event.stopPropagation()">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div class="button-container">
+    <button class="add-project-btn" (click)="openModal(false)">Add Project</button>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-container">
+      <span class="close" (click)="showModal = false">&times;</span>
+      <h3>{{ isEditing ? 'Edit Project' : 'Add New Project' }}</h3>
+  
+      <form (submit)="saveProject(); $event.preventDefault();">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="projectData.title" name="title" required />
+  
+        <label>Description</label>
+        <input type="text" [(ngModel)]="projectData.description" name="description" required />
+  
+        <label>Status</label>
+        <select [(ngModel)]="projectData.status" name="status">
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+          <option value="Overdue">Overdue</option>
+        </select>
+  
+        <label>Program Manager</label>
+        <input type="text" [(ngModel)]="projectData.programManager" name="programManager" />
+  
+        <label>Project Manager</label>
+        <input type="text" [(ngModel)]="projectData.projectManager" name="projectManager" />
+  
+        <div class="date-group">
+          <div>
+            <label>Start Date</label>
+            <input type="date" [(ngModel)]="projectData.startDate" name="startDate" />
+          </div>
+          
+          <div>
+            <label>End Date</label>
+            <input type="date" [(ngModel)]="projectData.endDate" name="endDate" />
+          </div>
+        </div>
+  
+        <label>Team Members</label>
+        <input type="text" [(ngModel)]="projectData.teamMembers" name="teamMembers" />
+  
+        <button type="submit">{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
+      </form>
+    </div>
+  </div>
+  
+  
+  

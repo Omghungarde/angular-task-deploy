@@ -1,0 +1,24 @@
+<nav class="navbar">
+    <div class="logo">Project Manager</div>
+    <h4 class="username">Welcome {{loggedInUser}}</h4>
+  
+    
+    <ul class="nav-links" [ngClass]="{ 'active': isMenuOpen }">
+      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/project">Projects</a></li>
+      
+      
+      <li><a routerLink="/task">Tasks</a></li>
+      <li><a routerLink="/logout" (click)="logout()">Logout</a></li>
+    </ul>
+  
+    <div class="hamburger" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  
+<div>
+    <router-outlet></router-outlet> 
+</div>

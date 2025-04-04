@@ -129,6 +129,86 @@
     background: #0056b3;
     
   }
+  .project-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px;
+    background: #fff;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .project-title {
+    flex: 1;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .filter-input,
+  .filter-select,
+  .sort-btn {
+    height: 34px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  
+  .filter-input {
+    width: 180px;
+  }
+  
+  .filter-select {
+    width: 120px;
+  }
+  
+  .sort-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .sort-btn:hover {
+    background: #0056b3;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .project-header {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .project-title {
+      order: -1;
+      text-align: center;
+    }
+  
+    .filters {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  
+    .filter-input,
+    .filter-select,
+    .sort-btn {
+      width: 100%;
+    }
+  }
+  
   .modal-overlay {
     position: fixed;
     inset: 0;

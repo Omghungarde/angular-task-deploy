@@ -6,9 +6,10 @@ import { Injectable } from '@angular/core';
 export class StatusService {
 
   private tasks: any[] = [];
-
+  private projects: any[] = [];
   constructor() {
     this.loadTasks();
+    this.loadProjects();
   }
 
   private loadTasks() {
@@ -53,11 +54,18 @@ export class StatusService {
   }
 
   searchTasks(query: string) {
-    return this.tasks.filter(task =>
-      task.title.toLowerCase().includes(query.toLowerCase()) ||
-      task.assignedUser.toLowerCase().includes(query.toLowerCase())
+    if (!query.trim()) {
+      return this.projects; // Return all projects if search is empty
+    }
+  
+    query = query.toLowerCase(); // Case-insensitive search
+  
+    return this.projects.filter(project =>
+      (project.title && project.title.toLowerCase().includes(query)) || 
+      (project.createdBy && project.createdBy.toLowerCase().includes(query)) 
     );
   }
+  
 
   sortTasksBy(field: string, order: 'asc' | 'desc') {
     return this.tasks.sort((a, b) => {
@@ -86,4 +94,87 @@ export class StatusService {
         return 'badge rounded-pill bg-secondary';
     }
   }
+  private loadProjects() {
+    this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+  }
+
+  private saveProjects() {
+    localStorage.setItem('projects', JSON.stringify(this.projects));
+  }
+  getProjects() {
+    return this.projects;
+  }
+
+  // 🟢 STEP 1: FILTER PROJECTS BY STATUS
+  filterProjectsByStatus(status: string) {
+    return status ? this.projects.filter(proj => proj.status.toLowerCase() === status.toLowerCase()) : this.projects;
+  }
+
+  // 🟢 STEP 2: SEARCH PROJECTS
+  searchProjects(query: string) {
+    query = query.toLowerCase().trim();
+  
+    if (!query) {
+      return this.getProjects(); // Return all if no search input
+    }
+  
+    return this.projects.filter(proj =>
+      (proj.title && proj.title.toLowerCase().includes(query)) ||
+      (proj.assignedUser && proj.assignedUser.toLowerCase().includes(query))
+    );
+  }
+  
+
+  // 🟢 STEP 3: SORT PROJECTS
+  // sortProjectsBy(field: string, order: 'asc' | 'desc') {
+  //   return this.projects.sort((a, b) => {
+  //     let valA = a[field];
+  //   let valB = b[field];
+
+  //   if (!valA) valA = ''; // Handle missing values
+  //   if (!valB) valB = '';
+
+  //   // Fixing date sorting issue
+  //   if (field === 'date') {
+  //     let dateA = new Date(valA);
+  //     let dateB = new Date(valB);
+
+  //     if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+  //       console.warn("Invalid date format", valA, valB);
+  //       return 0; // If date is invalid, keep the original order
+  //     }
+
+  //     return order === 'asc' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
+  //   }
+
+  //   // ✅ Sorting by string (e.g., project name)
+  //   if (typeof valA === 'string' && typeof valB === 'string') {
+  //     return order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+  //   }
+
+  //   return 0;
+  // });
+    
+  // }
+
+  sortProjectsBy(field: string, order: 'asc' | 'desc') {
+    return this.projects.sort((a, b) => {
+      if (!a || !b || !a[field] || !b[field]) return 0; // Prevent errors
+  
+      if (field === 'startDate') {
+        let dateA = new Date(a.startDate).getTime();
+        let dateB = new Date(b.startDate).getTime();
+  
+        return order === 'asc' ? dateA - dateB : dateB - dateA;
+      } else {
+        let valA = a[field].toString().toLowerCase();
+        let valB = b[field].toString().toLowerCase();
+        return order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+      }
+    });
+  }
+  
+  
+  
+  
 }

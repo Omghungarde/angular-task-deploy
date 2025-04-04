@@ -1,3 +1,24 @@
+<div class="filters">
+    <input type="text" placeholder="Search by title or user" [(ngModel)]="searchQuery" (input)="searchProjects()" />
+  
+    <select [(ngModel)]="selectedStatus" (change)="filterProjects()">
+      <option value="">All Statuses</option>
+      <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+          <option value="Overdue">Overdue</option>
+    </select>
+  
+    <select [(ngModel)]="sortField" (change)="sortProjects()">
+        <option value="startDate">Sort by Start Date</option>
+        <option value="projectName">Sort by Project Name</option>
+      </select>
+      
+      <button (click)="toggleSortOrder()">Toggle Sort Order</button>
+      
+  
+  <!-- Display Projects -->
+  
+  
 <div class="card">
     <h2>Projects</h2>
     <div class="card-body">

@@ -16,7 +16,10 @@ export class ProjectComponent implements OnInit {
   showModal: boolean = false;
   isEditing: boolean = false;
   editingProjectId: number | null = null;
-
+  selectedStatus: string = '';
+  sortField: string = 'date';
+  sortOrder: 'asc' | 'desc' = 'asc';
+  searchQuery: string = '';
   projectData = {
     title: '',
     description: '',
@@ -50,9 +53,7 @@ export class ProjectComponent implements OnInit {
       ...project,
       dueDays: this.calculateDueDays(project.endDate)  // Calculate dueDays dynamically
     }));
-
-  console.log("📌 Projects with Due Days:", this.projects);
-
+    this.projects = this.statusService.getProjects();
   }
 
   openModal(edit: boolean, project?: any) {
@@ -142,7 +143,22 @@ export class ProjectComponent implements OnInit {
   }
   
   
-  
+  filterProjects() {
+    this.projects = this.statusService.filterProjectsByStatus(this.selectedStatus);
+  }
+
+  searchProjects() {
+    this.projects = this.statusService.searchProjects(this.searchQuery);
+  }
+
+  sortProjects() {
+    this.projects = this.statusService.sortProjectsBy(this.sortField, this.sortOrder);
+  }
+
+  toggleSortOrder() {
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    this.sortProjects();
+  }
   
   
 

@@ -9,8 +9,29 @@
 <body>
   
   <div class="container">
-    <h2>Task List</h2>
-  
+    <div class="task-header">
+        <h2 class="task-title">Task List</h2>
+        <div class="filters">
+            <input 
+              type="text" 
+              class="filter-input" 
+              placeholder="Search" 
+              [(ngModel)]="searchQuery" 
+              (input)="searchTasks()" 
+            />
+          
+            <select class="filter-select" [(ngModel)]="selectedStatus" (change)="filterTasks()">
+              <option value="">Status</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+        </div>
+    </div>
+    
+    
+    
+      
     <!-- Task Table -->
     <div class="table-container">
       <table>

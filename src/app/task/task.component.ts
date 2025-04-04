@@ -69,6 +69,7 @@ export class TaskComponent implements OnInit {
   loadTasks() {
     const allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     this.tasks = allTasks.filter((task: any) => task.projectId === this.projectId);
+    this.tasks = this.statusService.getTasks();
   }
 
   // addTask() {
@@ -110,6 +111,7 @@ export class TaskComponent implements OnInit {
       localStorage.setItem('tasks', JSON.stringify(allTasks));
       this.loadTasks();
     }
+    this.tasks = this.tasks.filter((task) => task.id !== taskId);
   }
 
   saveTask() {
@@ -120,7 +122,9 @@ export class TaskComponent implements OnInit {
       allTasks = allTasks.map((task: any) =>
         task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
       );
-  
+      this.tasks = this.tasks.map((task) =>
+        task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
+      );
       this.isEditing = false;
       this.editingTaskId = null;
     } else {
@@ -136,6 +140,7 @@ export class TaskComponent implements OnInit {
     };
 
     allTasks.push(newTask);
+    this.tasks.push(newTask);
   }
 
   localStorage.setItem('tasks', JSON.stringify(allTasks)); // Save to LocalStorage
@@ -164,4 +169,17 @@ getStatusClass(status: string): string {
       return 'badge rounded-pill bg-secondary';
   }
 }
+
+filterTasks() {
+  this.tasks = this.statusService.filterByStatus(this.selectedStatus);
+}
+
+searchTasks() {
+  this.tasks = this.statusService.searchTasks(this.searchQuery);
+}
+
+sortTasks() {
+  this.tasks = this.statusService.sortTasksBy(this.sortField, this.sortOrder);
+}
+
 }

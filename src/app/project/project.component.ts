@@ -45,7 +45,14 @@ export class ProjectComponent implements OnInit {
 
   loadProjects() {
     const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-    this.projects = allProjects.filter((project: any) => project.createdBy === this.loggedInUser.username);
+    this.projects = allProjects.filter((project: any) => project.createdBy === this.loggedInUser.username)
+    .map((project: any) => ({
+      ...project,
+      dueDays: this.calculateDueDays(project.endDate)  // Calculate dueDays dynamically
+    }));
+
+  console.log("📌 Projects with Due Days:", this.projects);
+
   }
 
   openModal(edit: boolean, project?: any) {
@@ -81,7 +88,8 @@ export class ProjectComponent implements OnInit {
         id: allProjects.length ? Math.max(...allProjects.map((p: { id: number }) => p.id)) + 1 : 1,
         ...this.projectData,
         createdBy: this.loggedInUser.username,
-        teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim())
+        teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim()),
+        dueDate: this.projectData.dueDate || new Date().toISOString().split('T')[0] 
       };
       allProjects.push(newProject);
     }
@@ -104,16 +112,38 @@ export class ProjectComponent implements OnInit {
     this.router.navigate(['/task', projectId]);
   }
   
-  calculateDueDays(dueDate: string): string {
-    if (!dueDate) return 'N/A';
+  // calculateDueDays(dueDate: string): string {
+  //   if (!dueDate) return 'N/A';
+  
+  //   const today = new Date();
+  //   const due = new Date(dueDate);
+  //   const timeDiff = due.getTime() - today.getTime();
+  //   const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  
+  //   return daysLeft >= 0 ? `${daysLeft} days left` : `Overdue by ${Math.abs(daysLeft)} days`;
+  // }
+
+
+
+
+  calculateDueDays(endDate: string): string {
+    if (!endDate) return 'N/A';
   
     const today = new Date();
-    const due = new Date(dueDate);
-    const timeDiff = due.getTime() - today.getTime();
+    today.setHours(0, 0, 0, 0); // Reset time to midnight
+  
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0); // Reset time to midnight
+  
+    const timeDiff = end.getTime() - today.getTime();
     const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
   
     return daysLeft >= 0 ? `${daysLeft} days left` : `Overdue by ${Math.abs(daysLeft)} days`;
   }
+  
+  
+  
+  
   
 
 }

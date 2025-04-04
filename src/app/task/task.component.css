@@ -11,13 +11,7 @@
     margin: auto;
     padding: 20px;
   }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
+
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -74,31 +68,112 @@
     
     color: #055c85;
   }
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-  }
-  .add-project-btn {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 7px 12px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+  .task-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-  }
-  
-  .add-project-btn:hover {
-    background: #0056b3;
+    justify-content: space-between;
+    padding: 12px 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* Centered title on large screens */
+.task-title {
+    flex: 1;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Filters stay on the right */
+.filters {
+    display: flex;
+    gap: 10px;
+}
+
+/* Consistent input and select styles */
+.filter-input,
+.filter-select {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: 0.3s;
+    width: 150px;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .task-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .task-title {
+        text-align: center;
+        width: 100%;
+    }
+
+    .filters {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filter-input,
+    .filter-select {
+        width: 100%;
+        max-width: 250px; /* Prevents full width stretching */
+    }
+}
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns to right */
+    padding: 8px 16px;
+    position: relative;
+}
+
+/* Modern Floating Button */
+.add-project-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 30px; /* Pill shape */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+/* Hover Effect */
+.add-project-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #003d80);
+    transform: translateY(-2px); /* Slight hover lift */
+}
+
+/* 📱 Responsive Fix for Small Screens */
+@media (max-width: 600px) {
+    .button-container {
+        justify-content: center; /* Center the button on small screens */
+        padding: 12px;
+    }
     
-  }
+    .add-project-btn {
+        font-size: 12px; /* Smaller font */
+        padding: 8px 12px; /* Less padding */
+        border-radius: 20px; /* Less rounded */
+        gap: 5px; /* Reduce space between icon & text */
+    }
+}
+
+
   .modal {
     position: fixed;
     top: 0;
@@ -182,9 +257,7 @@
       padding: 8px;
     }
   
-    .add-project-btn {
-      width: 100%;
-    }
+    
   }
 .status-pending {
     color: #ffc107;

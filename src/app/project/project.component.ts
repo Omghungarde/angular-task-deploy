@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { StatusService } from '../service/status.service';
 
 @Component({
   selector: 'app-project',
-  imports:[FormsModule,NgFor,NgIf],
+  imports:[FormsModule,NgFor,NgIf,NgClass],
   templateUrl: './project.component.html',
   styleUrl: './project.component.css'
 })
@@ -20,6 +20,8 @@ export class ProjectComponent implements OnInit {
   sortField: string = 'date';
   sortOrder: 'asc' | 'desc' = 'asc';
   searchQuery: string = '';
+  notification: string = '';
+  notificationType: string = '';
   projectData = {
     title: '',
     description: '',
@@ -88,6 +90,7 @@ export class ProjectComponent implements OnInit {
         }
         return p;
       });
+      this.showNotification('Project updated successfully!', 'success');
     } else {
       const newProject = {
         id: allProjects.length ? Math.max(...allProjects.map((p: { id: number }) => p.id)) + 1 : 1,
@@ -97,6 +100,7 @@ export class ProjectComponent implements OnInit {
         dueDate: this.projectData.dueDate || new Date().toISOString().split('T')[0] 
       };
       allProjects.push(newProject);
+      this.showNotification('Project added successfully!', 'success');
     }
 
     localStorage.setItem('projects', JSON.stringify(allProjects));
@@ -110,9 +114,16 @@ export class ProjectComponent implements OnInit {
       allProjects = allProjects.filter((project: any) => project.id !== projectId);
       localStorage.setItem('projects', JSON.stringify(allProjects));
       this.loadProjects();
+      this.showNotification('Project deleted successfully!', 'error');
     }
   }
-
+  showNotification(message: string, type: string) {
+    this.notification = message;
+    this.notificationType = type;
+    setTimeout(() => {
+      this.notification = '';
+    }, 3000); // Hide notification after 3 seconds
+  }
   openTask(projectId: number) {
     this.router.navigate(['/task', projectId]);
   }

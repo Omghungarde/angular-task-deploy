@@ -308,3 +308,62 @@ tr:hover {
     gap: 20px;
   }
 }
+/* Base Notification Styles */
+.notification {
+  position: fixed;
+  top: 20px; /* Start at the top of the screen */
+  right: -300px; /* Start off the screen on the right */
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  max-width: 90%;
+  box-sizing: border-box;
+  transition: opacity 0.5s ease;
+  animation: pop-from-right 0.5s forwards, fade-out 0.3s 3s forwards; /* Pop in and fade-out */
+}
+
+.notification.success {
+  background-color: #4CAF50; /* Green background for success */
+}
+
+.notification.error {
+  background-color: #f44336; /* Red background for error */
+}
+
+.notification .notification-icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.notification .notification-message {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Pop from the Right Animation */
+@keyframes pop-from-right {
+  from {
+    right: -300px;
+    opacity: 0;
+  }
+  to {
+    right: 20px;
+    opacity: 1;
+  }
+}
+
+/* Fade-out Animation */
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+

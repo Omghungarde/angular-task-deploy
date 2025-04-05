@@ -9,6 +9,15 @@
 <body>
   
   <div class="container">
+    <div *ngIf="notification" class="notification" [ngClass]="notificationType">
+      <div class="notification-icon">
+        <i *ngIf="notificationType === 'success'" class="fa fa-check-circle"></i>
+        <i *ngIf="notificationType === 'error'" class="fa fa-times-circle"></i>
+      </div>
+      <div class="notification-message">
+        {{ notification }}
+      </div>
+    </div>
     <div class="task-header">
         <h2 class="task-title">Task List</h2>
         <div class="filters">

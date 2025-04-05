@@ -6,7 +6,7 @@ import { StatusService } from '../service/status.service';
 
 @Component({
   selector: 'app-task',
-  imports: [NgIf,NgFor, FormsModule],
+  imports: [NgIf,NgFor, FormsModule,NgClass],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css'
 })
@@ -22,6 +22,8 @@ export class TaskComponent implements OnInit {
   selectedStatus: string = '';
   sortField: string = 'date';
   sortOrder: 'asc' | 'desc' = 'asc';
+  notification: string = '';
+  notificationType: string = '';
   
   // taskData = {
   //   title: '',
@@ -111,6 +113,12 @@ export class TaskComponent implements OnInit {
       allTasks = allTasks.filter((task: any) => task.id !== taskId);
       localStorage.setItem('tasks', JSON.stringify(allTasks));
       this.loadTasks();
+
+      this.notification = 'Task deleted successfully!';
+      this.notificationType = 'error';
+      setTimeout(() => {
+        this.notification = ''; // Clear notification after 3 seconds
+      }, 1500);
     }
     // this.tasks = this.tasks.filter((task) => task.id !== taskId);
   }
@@ -123,6 +131,8 @@ export class TaskComponent implements OnInit {
       allTasks = allTasks.map((task: any) =>
         task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
       );
+      this.notification = 'Task updated successfully!';
+      this.notificationType = 'success';
     } else {
       // Assign a unique ID based on the max existing ID
       const newId = allTasks.length ? Math.max(...allTasks.map((t: any) => t.id)) + 1 : 1;
@@ -132,6 +142,8 @@ export class TaskComponent implements OnInit {
         projectId: this.projectId
       };
       allTasks.push(newTask);
+      this.notification = 'Task added successfully!';
+      this.notificationType = 'success';
     }
   
     // Save back to localStorage

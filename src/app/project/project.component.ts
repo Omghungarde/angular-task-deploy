@@ -148,16 +148,35 @@ export class ProjectComponent implements OnInit {
   
   
   filterProjects() {
-    this.projects = this.statusService.filterProjectsByStatus(this.selectedStatus, this.loggedInUser.username);
+    this.searchProjects();
   }
 
   searchProjects() {
-    const query = this.searchQuery.toLowerCase();
-  this.projects = this.statusService.getProjects().filter(project =>
-    project.title?.toLowerCase().includes(query) ||
-    project.createdBy?.toLowerCase().includes(query)
-  );
+    const allProjects = this.statusService.getProjects();
+    
+    let filtered = allProjects.filter(project => project.createdBy === this.loggedInUser.username);
+  
+    // Apply status filter if selected
+    if (this.selectedStatus) {
+      filtered = filtered.filter(project => project.status === this.selectedStatus);
+    }
+  
+    // Apply search if query exists
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase();
+      filtered = filtered.filter(project =>
+        project.title?.toLowerCase().includes(query) ||
+        project.createdBy?.toLowerCase().includes(query)
+      );
+    }
+  
+    // Add dueDays back to each project
+    this.projects = filtered.map(project => ({
+      ...project,
+      dueDays: this.calculateDueDays(project.endDate)
+    }));
   }
+  
   
   
 

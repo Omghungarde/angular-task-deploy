@@ -170,16 +170,32 @@ getStatusClass(status: string): string {
 }
 
 filterTasks() {
-  this.tasks = this.statusService.filterByStatus(this.selectedStatus);
+  this.searchTasks();
 }
 
 searchTasks() {
-  if (!this.searchQuery.trim()) {
-    this.loadTasks(); // ✅ Reload full task list when search box is cleared
-  } else {
-    this.tasks = this.statusService.searchTasks(this.searchQuery, this.projectId!);
+  const rawTasks = this.statusService.getTasks(); // Get all tasks again
+
+  let filtered = rawTasks.filter(task => task.projectId === this.projectId);
+
+  // Apply status filter if selected
+  if (this.selectedStatus) {
+    filtered = filtered.filter(task => task.status === this.selectedStatus);
   }
+
+  // Apply search filter if query exists
+  if (this.searchQuery.trim()) {
+    const query = this.searchQuery.trim().toLowerCase();
+    filtered = filtered.filter(task =>
+      task.title.toLowerCase().includes(query) ||
+      task.assignedTo.toLowerCase().includes(query) ||
+      task.assignedUser.toLowerCase().includes(query)
+    );
+  }
+
+  this.tasks = filtered;
 }
+
 
 
 sortTasks() {

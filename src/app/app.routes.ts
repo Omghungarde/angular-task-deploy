@@ -6,6 +6,7 @@ import { SignupComponent } from './signup/signup.component';
 import { authGuard } from './auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 import { TaskComponent } from './task/task.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
     { path: '', component: WelcomeComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
         component:LayoutComponent,
         children:
         [
+            { path: 'home', component: HomeComponent, canActivate:[authGuard] },
             { path: 'project', component: ProjectComponent, canActivate:[authGuard] },
             {
                 path:'task/:id',

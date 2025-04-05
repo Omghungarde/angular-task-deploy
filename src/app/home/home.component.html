@@ -1,0 +1,19 @@
+<div class="home-container">
+    <h2>Welcome back, {{ loggedInUser }} 👋</h2>
+  
+    <div class="stats-cards">
+      <div class="card">
+        <h3>{{ totalProjects }}</h3>
+        <p>Total Projects</p>
+      </div>
+      <div class="card">
+        <h3>{{ activeProjects }}</h3>
+        <p>Active Projects</p>
+      </div>
+    </div>
+  
+    <div class="quick-actions">
+      <button routerLink="/project" class="btn">📁 View Projects</button>
+    </div>
+  </div>
+  

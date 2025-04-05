@@ -1,5 +1,4 @@
 .navbar {
-    
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -7,6 +6,7 @@
     padding: 15px 30px;
     color: white;
     font-family: Arial, sans-serif;
+    position: relative;
 }
 
 .logo {
@@ -17,6 +17,8 @@
 .username {
     font-size: 18px;
     text-transform: capitalize;
+    margin-left: auto;
+    margin-right: 20px;
 }
 
 .nav-links {
@@ -41,6 +43,7 @@
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
+    z-index: 1001;
 }
 
 .hamburger span {
@@ -56,10 +59,11 @@
         flex-direction: column;
         position: absolute;
         top: 60px;
-        right: 0;
+        right: 30px;
         background: #2c3e50;
         width: 200px;
         padding: 10px;
+        z-index: 1000;
     }
     
     .nav-links.active {
@@ -68,5 +72,9 @@
 
     .hamburger {
         display: flex;
+    }
+
+    .username {
+        display: none; /* Hide username on smaller screens */
     }
 }

@@ -200,59 +200,68 @@ tr:hover {
   z-index: 1000;
 }
 
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
 .modal-container {
   background: white;
-  border-radius: 16px;
-  padding: 32px;
-  width: 90%;
-  max-width: 520px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-  animation: slideUp 0.3s ease-out;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .modal-container h3 {
   text-align: center;
-  margin-bottom: 24px;
-  font-size: 22px;
-  color: #111827;
+  margin-bottom: 20px;
+  font-size: 20px;
 }
 
 .modal-container form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .modal-container input,
 .modal-container select {
-  padding: 12px;
-  border-radius: 8px;
+  padding: 10px;
   border: 1px solid #d1d5db;
+  border-radius: 8px;
   font-size: 14px;
   background: #fff;
-  color: #111827;
 }
 
 .modal-container button {
-  padding: 14px;
-  background: #3b82f6;
-  color: white;
-  border-radius: 10px;
+  padding: 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
   font-weight: 600;
   font-size: 15px;
-  border: none;
-  cursor: pointer;
 }
 
 .modal-container button:hover {
-  background: #2563eb;
+  background: #1d4ed8;
 }
 
 .close {
   position: absolute;
   top: 14px;
-  right: 20px;
+  right: 16px;
   font-size: 24px;
   color: #9ca3af;
   cursor: pointer;
@@ -262,11 +271,11 @@ tr:hover {
   color: #111827;
 }
 
-/* Date grid */
+/* ==== Date Fields Grid ==== */
 .date-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 /* Animations */

@@ -180,9 +180,15 @@ export class ProjectComponent implements OnInit {
   
   
 
-  sortProjects() {
-    this.projects = this.statusService.sortProjectsBy(this.sortField, this.sortOrder, this.loggedInUser.username);
-  }
+  
+    sortProjects() {
+      const sorted = this.statusService.sortProjectsBy(this.sortField, this.sortOrder, this.loggedInUser.username);
+      this.projects = sorted.map((project:any) => ({
+        ...project,
+        dueDays: this.calculateDueDays(project.endDate)
+      }));
+    }
+
 
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';

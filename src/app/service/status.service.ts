@@ -7,8 +7,10 @@ export class StatusService {
 
   private tasks: any[] = [];
   private projects: any[] = [];
+  private loggedInUser: any;
   constructor() {
     this.loadTasks();
+    this.loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
     this.loadProjects();
   }
 
@@ -95,7 +97,8 @@ export class StatusService {
     }
   }
   private loadProjects() {
-    this.projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+  this.projects = allProjects.filter((p: any) => p.createdBy === this.loggedInUser.username);
   }
 
   private saveProjects() {
@@ -106,21 +109,17 @@ export class StatusService {
   }
 
   // 🟢 STEP 1: FILTER PROJECTS BY STATUS
-  filterProjectsByStatus(status: string) {
-    return status ? this.projects.filter(proj => proj.status.toLowerCase() === status.toLowerCase()) : this.projects;
+  filterProjectsByStatus(status: string, username: string) {
+    return this.getProjectsByUser(username).filter((p: any) =>
+      status ? p.status === status : true
+    );
   }
 
   // 🟢 STEP 2: SEARCH PROJECTS
-  searchProjects(query: string) {
-    query = query.toLowerCase().trim();
-  
-    if (!query) {
-      return this.getProjects(); // Return all if no search input
-    }
-  
-    return this.projects.filter(proj =>
-      (proj.title && proj.title.toLowerCase().includes(query)) ||
-      (proj.assignedUser && proj.assignedUser.toLowerCase().includes(query))
+  searchProjects(query: string, username: string) {
+    return this.getProjectsByUser(username).filter((project: any) =>
+      project.title.toLowerCase().includes(query.toLowerCase()) ||
+      project.createdBy.toLowerCase().includes(query.toLowerCase())
     );
   }
   
@@ -157,24 +156,27 @@ export class StatusService {
     
   // }
 
-  sortProjectsBy(field: string, order: 'asc' | 'desc') {
-    return this.projects.sort((a, b) => {
-      if (!a || !b || !a[field] || !b[field]) return 0; // Prevent errors
-  
+  sortProjectsBy(field: string, order: 'asc' | 'desc', username: string) {
+    const projects = this.getProjectsByUser(username);
+    return projects.sort((a: any, b: any) => {
       if (field === 'startDate') {
-        let dateA = new Date(a.startDate).getTime();
-        let dateB = new Date(b.startDate).getTime();
-  
-        return order === 'asc' ? dateA - dateB : dateB - dateA;
-      } else {
-        let valA = a[field].toString().toLowerCase();
-        let valB = b[field].toString().toLowerCase();
-        return order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        const dateA = new Date(a.startDate);
+        const dateB = new Date(b.startDate);
+        return order === 'asc' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
       }
+      if (field === 'title' || field === 'projectName') {
+        return order === 'asc'
+          ? a[field].localeCompare(b[field])
+          : b[field].localeCompare(a[field]);
+      }
+      return 0;
     });
   }
   
-  
+  getProjectsByUser(username: string) {
+    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+    return allProjects.filter((p: any) => p.createdBy === username);
+  }
   
   
 }

@@ -53,7 +53,11 @@ export class ProjectComponent implements OnInit {
       ...project,
       dueDays: this.calculateDueDays(project.endDate)  // Calculate dueDays dynamically
     }));
-    this.projects = this.statusService.getProjects();
+    this.projects = this.statusService.getProjectsByUser(this.loggedInUser.username)
+    .map((p: any) => ({
+      ...p,
+      dueDays: this.calculateDueDays(p.endDate)
+    }));
   }
 
   openModal(edit: boolean, project?: any) {
@@ -144,15 +148,21 @@ export class ProjectComponent implements OnInit {
   
   
   filterProjects() {
-    this.projects = this.statusService.filterProjectsByStatus(this.selectedStatus);
+    this.projects = this.statusService.filterProjectsByStatus(this.selectedStatus, this.loggedInUser.username);
   }
 
   searchProjects() {
-    this.projects = this.statusService.searchProjects(this.searchQuery);
+    const query = this.searchQuery.toLowerCase();
+  this.projects = this.statusService.getProjects().filter(project =>
+    project.title?.toLowerCase().includes(query) ||
+    project.createdBy?.toLowerCase().includes(query)
+  );
   }
+  
+  
 
   sortProjects() {
-    this.projects = this.statusService.sortProjectsBy(this.sortField, this.sortOrder);
+    this.projects = this.statusService.sortProjectsBy(this.sortField, this.sortOrder, this.loggedInUser.username);
   }
 
   toggleSortOrder() {
@@ -160,6 +170,27 @@ export class ProjectComponent implements OnInit {
     this.sortProjects();
   }
   
+  sortProjectsBy(field: string, order: 'asc' | 'desc', createdBy: string): any[] {
+    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const userProjects = allProjects.filter((p:any) => p.createdBy === createdBy);
+  
+    const sortedProjects = userProjects.sort((a:any, b:any) => {
+      const valA = a[field] || '';
+      const valB = b[field] || '';
+  
+      if (field === 'startDate') {
+        return order === 'asc'
+          ? new Date(valA).getTime() - new Date(valB).getTime()
+          : new Date(valB).getTime() - new Date(valA).getTime();
+      }
+  
+      return order === 'asc'
+        ? valA.toString().localeCompare(valB.toString())
+        : valB.toString().localeCompare(valA.toString());
+    });
+  
+    return sortedProjects;
+  }
   
 
 }

@@ -1,5 +1,5 @@
 <div class="filters">
-    <input type="text" placeholder="Search by title or user" [(ngModel)]="searchQuery" (input)="searchProjects()" />
+    <input type="text" placeholder="Search by title" [(ngModel)]="searchQuery" (input)="searchProjects()" />
   
     <select [(ngModel)]="selectedStatus" (change)="filterProjects()">
       <option value="">All Statuses</option>
@@ -10,7 +10,7 @@
   
     <select [(ngModel)]="sortField" (change)="sortProjects()">
         <option value="startDate">Sort by Start Date</option>
-        <option value="projectName">Sort by Project Name</option>
+        <option value="title">Sort by Project Name</option>
       </select>
       
       <button (click)="toggleSortOrder()">Toggle Sort Order</button>

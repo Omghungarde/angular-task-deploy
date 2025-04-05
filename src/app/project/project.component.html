@@ -1,27 +1,37 @@
-<div class="filters">
-    <input type="text" placeholder="Search by title" [(ngModel)]="searchQuery" (input)="searchProjects()" />
+<!-- Toggle Mode based on system -->
+<body class="auto-theme">
+  <div class="container">
+    <div class="project-header">
+      <h2 class="project-title">Projects</h2>
   
-    <select [(ngModel)]="selectedStatus" (change)="filterProjects()">
-      <option value="">All Statuses</option>
-      <option value="Pending">Pending</option>
+      <div class="filter-controls">
+        <input
+          class="filter-input"
+          type="text"
+          placeholder="Search by title"
+          [(ngModel)]="searchQuery"
+          (input)="searchProjects()" />
+  
+        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="filterProjects()">
+          <option value="">All Statuses</option>
+          <option value="Pending">Pending</option>
           <option value="Completed">Completed</option>
           <option value="Overdue">Overdue</option>
-    </select>
+        </select>
   
-    <select [(ngModel)]="sortField" (change)="sortProjects()">
-        <option value="startDate">Sort by Start Date</option>
-        <option value="title">Sort by Project Name</option>
-      </select>
-      
-      <button (click)="toggleSortOrder()">Toggle Sort Order</button>
-      
+        <select class="filter-select" [(ngModel)]="sortField" (change)="sortProjects()">
+          <option value="startDate">Start Date</option>
+          <option value="title">Project Name</option>
+        </select>
   
-  <!-- Display Projects -->
+        <button class="icon-btn" (click)="toggleSortOrder()" title="Toggle sort order">
+          <i class="fa-solid fa-arrow-up-wide-short"></i>
+        </button>
+      </div>
+    </div>
   
-  
-<div class="card">
-    <h2>Projects</h2>
-    <div class="card-body">
+    
+    <div class="card">
       <div class="table-container">
         <table>
           <thead>
@@ -42,10 +52,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let project of projects">
-              <td (click)="openTask(project.id)" style="cursor:pointer;">{{ project.title }}</td>
+              <td (click)="openTask(project.id)" class="clickable">{{ project.title }}</td>
               <td>{{ project.description }}</td>
-              <td class="status-cell">
-                <span [class]="statusService.getStatusClass(project.status)">
+              <td>
+                <span [class]="statusService.getStatusClass(project.status)" class="status-badge">
                   {{ project.status }}
                 </span>
               </td>
@@ -54,7 +64,6 @@
               <td>{{ project.projectManager }}</td>
               <td>{{ project.startDate }}</td>
               <td>{{ project.dueDays }}</td>
-
               <td>{{ project.endDate }}</td>
               <td>{{ project.teamMembers.join(', ') }}</td>
               <td>{{ project.teamMembers.length }}</td>
@@ -71,57 +80,58 @@
         </table>
       </div>
     </div>
-  </div>
-  
-  <div class="button-container">
-    <button class="add-project-btn" (click)="openModal(false)">Add Project</button>
-  </div>
-  
-  <!-- Modal -->
-  <div class="modal-overlay" *ngIf="showModal">
-    <div class="modal-container">
-      <span class="close" (click)="showModal = false">&times;</span>
-      <h3>{{ isEditing ? 'Edit Project' : 'Add New Project' }}</h3>
-  
-      <form (submit)="saveProject(); $event.preventDefault();">
-        <label>Title</label>
-        <input type="text" [(ngModel)]="projectData.title" name="title" required />
-  
-        <label>Description</label>
-        <input type="text" [(ngModel)]="projectData.description" name="description" required />
-  
-        <label>Status</label>
-        <select [(ngModel)]="projectData.status" name="status">
-          <option value="Pending">Pending</option>
-          <option value="Completed">Completed</option>
-          <option value="Overdue">Overdue</option>
-        </select>
-  
-        <label>Program Manager</label>
-        <input type="text" [(ngModel)]="projectData.programManager" name="programManager" />
-  
-        <label>Project Manager</label>
-        <input type="text" [(ngModel)]="projectData.projectManager" name="projectManager" />
-  
-        <div class="date-group">
-          <div>
-            <label>Start Date</label>
-            <input type="date" [(ngModel)]="projectData.startDate" name="startDate" />
+
+    <!-- Add Project Button -->
+    <div class="button-container mt-4">
+      <button class="add-project-btn" (click)="openModal(false)">
+         Add Project
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" *ngIf="showModal">
+      <div class="modal-container">
+        <span class="close" (click)="showModal = false">&times;</span>
+        <h3>{{ isEditing ? 'Edit Project' : 'Add New Project' }}</h3>
+
+        <form (submit)="saveProject(); $event.preventDefault();">
+          <label>Title</label>
+          <input type="text" [(ngModel)]="projectData.title" name="title" required />
+
+          <label>Description</label>
+          <input type="text" [(ngModel)]="projectData.description" name="description" required />
+
+          <label>Status</label>
+          <select [(ngModel)]="projectData.status" name="status">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Overdue">Overdue</option>
+          </select>
+
+          <label>Program Manager</label>
+          <input type="text" [(ngModel)]="projectData.programManager" name="programManager" />
+
+          <label>Project Manager</label>
+          <input type="text" [(ngModel)]="projectData.projectManager" name="projectManager" />
+
+          <div class="date-group">
+            <div>
+              <label>Start Date</label>
+              <input type="date" [(ngModel)]="projectData.startDate" name="startDate" />
+            </div>
+
+            <div>
+              <label>End Date</label>
+              <input type="date" [(ngModel)]="projectData.endDate" name="endDate" />
+            </div>
           </div>
-          
-          <div>
-            <label>End Date</label>
-            <input type="date" [(ngModel)]="projectData.endDate" name="endDate" />
-          </div>
-        </div>
-  
-        <label>Team Members</label>
-        <input type="text" [(ngModel)]="projectData.teamMembers" name="teamMembers" />
-  
-        <button type="submit">{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
-      </form>
+
+          <label>Team Members</label>
+          <input type="text" [(ngModel)]="projectData.teamMembers" name="teamMembers" />
+
+          <button type="submit">{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
+        </form>
+      </div>
     </div>
   </div>
-  
-  
-  
+</body>

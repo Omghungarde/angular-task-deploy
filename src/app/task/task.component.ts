@@ -13,6 +13,7 @@ import { StatusService } from '../service/status.service';
 export class TaskComponent implements OnInit {
   projectId: number | null = null;
   tasks: any[] = [];
+  allProjectTasks: any[] = [];
   taskData: any = {};
   showModal: boolean = false;
   isEditing: boolean = false;
@@ -68,8 +69,8 @@ export class TaskComponent implements OnInit {
 
   loadTasks() {
     const allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    this.tasks = allTasks.filter((task: any) => task.projectId === this.projectId);
-    this.tasks = this.statusService.getTasks();
+    this.allProjectTasks = allTasks.filter((task: any) => task.projectId === this.projectId);
+    this.tasks = [...this.allProjectTasks];
   }
 
   // addTask() {
@@ -111,43 +112,41 @@ export class TaskComponent implements OnInit {
       localStorage.setItem('tasks', JSON.stringify(allTasks));
       this.loadTasks();
     }
-    this.tasks = this.tasks.filter((task) => task.id !== taskId);
+    // this.tasks = this.tasks.filter((task) => task.id !== taskId);
   }
 
   saveTask() {
     let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-
+  
     if (this.isEditing) {
-      
+      // Update the task in localStorage
       allTasks = allTasks.map((task: any) =>
         task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
       );
-      this.tasks = this.tasks.map((task) =>
-        task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
-      );
-      this.isEditing = false;
-      this.editingTaskId = null;
     } else {
+      // Assign a unique ID based on the max existing ID
+      const newId = allTasks.length ? Math.max(...allTasks.map((t: any) => t.id)) + 1 : 1;
       const newTask = {
-      id: allTasks.length + 1,
-      title: this.taskData.title,
-      assignedTo: this.taskData.assignedTo,
-      status: this.taskData.status,
-      assignedUser: this.taskData.assignedUser,
-      estimate: this.taskData.estimate,
-      timeSpent: this.taskData.timeSpent,
-      projectId: this.projectId
-    };
-
-    allTasks.push(newTask);
-    this.tasks.push(newTask);
+        id: newId,
+        ...this.taskData,
+        projectId: this.projectId
+      };
+      allTasks.push(newTask);
+    }
+  
+    // Save back to localStorage
+    localStorage.setItem('tasks', JSON.stringify(allTasks));
+  
+    // Reload the tasks from storage
+    this.loadTasks();
+  
+    // Reset the form and modal
+    this.taskData = {};
+    this.showModal = false;
+    this.isEditing = false;
+    this.editingTaskId = null;
   }
-
-  localStorage.setItem('tasks', JSON.stringify(allTasks)); // Save to LocalStorage
-  this.loadTasks(); // Reload tasks to reflect changes
-  this.taskData = {}; // Reset form
-  this.showModal = false; // Close modal
-}
+  
   
 //   // // Update task status
 //   // updateStatus(task: any, newStatus: string) {
@@ -175,8 +174,13 @@ filterTasks() {
 }
 
 searchTasks() {
-  this.tasks = this.statusService.searchTasks(this.searchQuery);
+  if (!this.searchQuery.trim()) {
+    this.loadTasks(); // ✅ Reload full task list when search box is cleared
+  } else {
+    this.tasks = this.statusService.searchTasks(this.searchQuery, this.projectId!);
+  }
 }
+
 
 sortTasks() {
   this.tasks = this.statusService.sortTasksBy(this.sortField, this.sortOrder);

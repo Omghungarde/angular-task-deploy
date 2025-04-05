@@ -55,17 +55,13 @@ export class StatusService {
     return status ? this.tasks.filter(task => task.status === status) : this.tasks;
   }
 
-  searchTasks(query: string) {
-    if (!query.trim()) {
-      return this.projects; // Return all projects if search is empty
-    }
-  
-    query = query.toLowerCase(); // Case-insensitive search
-  
-    return this.projects.filter(project =>
-      (project.title && project.title.toLowerCase().includes(query)) || 
-      (project.createdBy && project.createdBy.toLowerCase().includes(query)) 
-    );
+  searchTasks(query: string, projectId: number): any[] {
+    const allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+  return allTasks.filter((task: any) =>
+    task.projectId === projectId &&
+    task.title.toLowerCase().includes(query.toLowerCase())
+  );
   }
   
 

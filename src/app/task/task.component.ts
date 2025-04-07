@@ -107,21 +107,26 @@ export class TaskComponent implements OnInit {
     this.loadTasks();
   }
 
-  deleteTask(taskId: number) {
+  deleteTask(taskId: number | string) {
     if (confirm('Are you sure you want to delete this task?')) {
-      let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const tasksFromStorage = localStorage.getItem('tasks') || '[]';
+      let allTasks = JSON.parse(tasksFromStorage);
+  
       allTasks = allTasks.filter((task: any) => task.id !== taskId);
       localStorage.setItem('tasks', JSON.stringify(allTasks));
+  
       this.loadTasks();
-
+  
       this.notification = 'Task deleted successfully!';
       this.notificationType = 'error';
+      
       setTimeout(() => {
-        this.notification = ''; // Clear notification after 3 seconds
-      }, 1500);
+        this.notification = '';
+      }, 3300);
     }
-    // this.tasks = this.tasks.filter((task) => task.id !== taskId);
   }
+  
+  
 
   saveTask() {
     let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');

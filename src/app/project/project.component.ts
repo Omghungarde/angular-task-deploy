@@ -22,6 +22,7 @@ export class ProjectComponent implements OnInit {
   searchQuery: string = '';
   notification: string = '';
   notificationType: string = '';
+  dateError = false;
   projectData = {
     title: '',
     description: '',
@@ -76,17 +77,27 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
-    if (!this.projectData.title || !this.projectData.description) {
-      alert('Please fill in all required fields.');
+    if (!this.projectData.title || !this.projectData.description || !this.projectData.startDate || !this.projectData.endDate || !this.projectData.teamMembers) {
+      this.showNotification('Please fill in all required fields.', 'error');
       return;
     }
-
+    const start = new Date(this.projectData.startDate);
+    const end = new Date(this.projectData.endDate);
+    if (start > end) {
+      this.showNotification('Start date must be before or equal to end date.', 'error');
+      return;
+    }
+  
     let allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-
+  
     if (this.isEditing && this.editingProjectId !== null) {
       allProjects = allProjects.map((p: any) => {
         if (p.id === this.editingProjectId) {
-          return { ...p, ...this.projectData, teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim()) };
+          return {
+            ...p,
+            ...this.projectData,
+            teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim())
+          };
         }
         return p;
       });
@@ -97,16 +108,17 @@ export class ProjectComponent implements OnInit {
         ...this.projectData,
         createdBy: this.loggedInUser.username,
         teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim()),
-        dueDate: this.projectData.dueDate || new Date().toISOString().split('T')[0] 
+        dueDate: this.projectData.dueDate || new Date().toISOString().split('T')[0]
       };
       allProjects.push(newProject);
       this.showNotification('Project added successfully!', 'success');
     }
-
+  
     localStorage.setItem('projects', JSON.stringify(allProjects));
     this.showModal = false;
     this.loadProjects();
   }
+  
 
   deleteProject(projectId: number) {
     if (confirm('Are you sure you want to delete this project?')) {
@@ -122,26 +134,11 @@ export class ProjectComponent implements OnInit {
     this.notificationType = type;
     setTimeout(() => {
       this.notification = '';
-    }, 3000); // Hide notification after 3 seconds
+    }, 3000);
   }
   openTask(projectId: number) {
     this.router.navigate(['/task', projectId]);
   }
-  
-  // calculateDueDays(dueDate: string): string {
-  //   if (!dueDate) return 'N/A';
-  
-  //   const today = new Date();
-  //   const due = new Date(dueDate);
-  //   const timeDiff = due.getTime() - today.getTime();
-  //   const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  
-  //   return daysLeft >= 0 ? `${daysLeft} days left` : `Overdue by ${Math.abs(daysLeft)} days`;
-  // }
-
-
-
-
   calculateDueDays(endDate: string): string {
     if (!endDate) return 'N/A';
   
@@ -156,23 +153,17 @@ export class ProjectComponent implements OnInit {
   
     return daysLeft >= 0 ? `${daysLeft} days left` : `Overdue by ${Math.abs(daysLeft)} days`;
   }
-  
-  
   filterProjects() {
     this.searchProjects();
   }
-
   searchProjects() {
     const allProjects = this.statusService.getProjects();
     
     let filtered = allProjects.filter(project => project.createdBy === this.loggedInUser.username);
-  
-    // Apply status filter if selected
     if (this.selectedStatus) {
       filtered = filtered.filter(project => project.status === this.selectedStatus);
     }
   
-    // Apply search if query exists
     if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase();
       filtered = filtered.filter(project =>
@@ -181,17 +172,11 @@ export class ProjectComponent implements OnInit {
       );
     }
   
-    // Add dueDays back to each project
     this.projects = filtered.map(project => ({
       ...project,
       dueDays: this.calculateDueDays(project.endDate)
     }));
   }
-  
-  
-  
-
-  
     sortProjects() {
       const sorted = this.statusService.sortProjectsBy(this.sortField, this.sortOrder, this.loggedInUser.username);
       this.projects = sorted.map((project:any) => ({
@@ -199,13 +184,10 @@ export class ProjectComponent implements OnInit {
         dueDays: this.calculateDueDays(project.endDate)
       }));
     }
-
-
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     this.sortProjects();
   }
-  
   sortProjectsBy(field: string, order: 'asc' | 'desc', createdBy: string): any[] {
     const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
     const userProjects = allProjects.filter((p:any) => p.createdBy === createdBy);
@@ -224,9 +206,6 @@ export class ProjectComponent implements OnInit {
         ? valA.toString().localeCompare(valB.toString())
         : valB.toString().localeCompare(valA.toString());
     });
-  
     return sortedProjects;
   }
-  
-
 }

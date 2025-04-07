@@ -9,13 +9,6 @@
     {{ notification }}
   </div>
 </div>
-
-<!-- Rest of the HTML content -->
-
-
-<!-- Rest of the HTML content -->
-
-<!-- Toggle Mode based on system -->
 <body class="auto-theme">
   <div class="container">
     <div class="project-header">
@@ -40,14 +33,11 @@
           <option value="startDate">Start Date</option>
           <option value="title">Project Name</option>
         </select>
-  
         <button class="icon-btn" (click)="toggleSortOrder()" title="Toggle sort order">
           <i class="fa-solid fa-arrow-up-wide-short"></i>
         </button>
       </div>
     </div>
-  
-    
     <div class="card">
       <div class="table-container">
         <table>
@@ -97,26 +87,26 @@
         </table>
       </div>
     </div>
-
-    <!-- Add Project Button -->
     <div class="button-container mt-4">
       <button class="add-project-btn" (click)="openModal(false)">
          Add Project
       </button>
     </div>
-
-    <!-- Modal -->
     <div class="modal-overlay" *ngIf="showModal">
       <div class="modal-container">
         <span class="close" (click)="showModal = false">&times;</span>
         <h3>{{ isEditing ? 'Edit Project' : 'Add New Project' }}</h3>
 
-        <form (submit)="saveProject(); $event.preventDefault();">
+        <form #projectForm="ngForm" (ngSubmit)="saveProject()" novalidate>
           <label>Title</label>
-          <input type="text" [(ngModel)]="projectData.title" name="title" required />
+          <input type="text" [(ngModel)]="projectData.title" name="title" required 
+          #title="ngModel"/>
+          <span *ngIf="title.invalid && title.touched" class="error">Title is required</span>
 
           <label>Description</label>
-          <input type="text" [(ngModel)]="projectData.description" name="description" required />
+          <input type="text" [(ngModel)]="projectData.description" name="description" required 
+          #description="ngModel"/>
+          <span *ngIf="description.invalid && description.touched" class="error">description is required</span>
 
           <label>Status</label>
           <select [(ngModel)]="projectData.status" name="status">
@@ -126,27 +116,33 @@
           </select>
 
           <label>Program Manager</label>
-          <input type="text" [(ngModel)]="projectData.programManager" name="programManager" />
+          <input type="text" [(ngModel)]="projectData.programManager" name="programManager" required #programManager="ngModel" />
+          <span *ngIf="programManager.invalid && programManager.touched" class="error">Program Manager is required</span>
 
           <label>Project Manager</label>
-          <input type="text" [(ngModel)]="projectData.projectManager" name="projectManager" />
+          <input type="text" [(ngModel)]="projectData.projectManager" name="projectManager" required #projectManager="ngModel"/>
+          <span *ngIf="projectManager.invalid && projectManager.touched" class="error">Project Manager is required</span>
 
           <div class="date-group">
             <div>
               <label>Start Date</label>
-              <input type="date" [(ngModel)]="projectData.startDate" name="startDate" />
+              <input type="date" [(ngModel)]="projectData.startDate" name="startDate" required #startDate="ngModel" />
+              <span *ngIf="startDate.invalid && startDate.touched" class="error">Start Date is required.</span> 
             </div>
 
             <div>
               <label>End Date</label>
-              <input type="date" [(ngModel)]="projectData.endDate" name="endDate" />
+              <input type="date" [(ngModel)]="projectData.endDate" name="endDate" required #endDate="ngModel" />
             </div>
+            <span *ngIf="endDate.invalid && endDate.touched" class="error">Start Date is required.</span>
+            <span *ngIf="dateError" class="error">
+              Start date must be before or equal to end date.
+            </span>
+            
           </div>
-
           <label>Team Members</label>
           <input type="text" [(ngModel)]="projectData.teamMembers" name="teamMembers" />
-
-          <button type="submit">{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
+          <button type="submit" [disabled]="projectForm.invalid" >{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
         </form>
       </div>
     </div>

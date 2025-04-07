@@ -90,12 +90,14 @@
         <span class="close" (click)="showModal = false">&times;</span>
         <h3>{{ isEditing ? 'Edit Task' : 'Add New Task' }}</h3>
   
-        <form (ngSubmit)="saveTask()">
+        <form #taskForm="ngForm" (ngSubmit)="saveTask()">
           <label>Title</label>
-          <input type="text" [(ngModel)]="taskData.title" name="title" required />
+          <input type="text" [(ngModel)]="taskData.title" name="title" required #title="ngModel"/>
+          <span *ngIf="title.invalid && title.touched" class="error">Title is required</span>
   
           <label>Assigned To</label>
-          <input type="text" [(ngModel)]="taskData.assignedTo" name="assignedTo" required />
+          <input type="text" [(ngModel)]="taskData.assignedTo" name="assignedTo" required #assignedTo="ngModel" />
+          <span *ngIf="assignedTo.invalid && assignedTo.touched" class="error">Assigned To is required</span>
   
           <label>Status</label>
           <select [(ngModel)]="taskData.status" name="status">
@@ -106,15 +108,18 @@
   
   
           <label>Assigned User</label>
-          <input type="text" [(ngModel)]="taskData.assignedUser" name="assignedUser" />
+          <input type="text" [(ngModel)]="taskData.assignedUser" name="assignedUser" #assignedUser="ngModel"/>
+          <span *ngIf="assignedUser.invalid && assignedUser.touched" class="error">Assigned User is required</span>
   
           <label>Estimate</label>
-          <input type="number" [(ngModel)]="taskData.estimate" name="estimate" />
+          <input type="number" [(ngModel)]="taskData.estimate" name="estimate" required #estimate="ngModel" />
+          <span *ngIf="estimate.invalid && estimate.touched" class="error">Estimate time is required</span>
   
           <label>Time Spent</label>
-          <input type="number" [(ngModel)]="taskData.timeSpent" name="timeSpent" />
+          <input type="number" [(ngModel)]="taskData.timeSpent" name="timeSpent" #timeSpent="ngModel" />
+          <span *ngIf="timeSpent.invalid && timeSpent.touched" class="error">TimeSpent time is required</span>
   
-          <button type="submit">{{ isEditing ? 'Update Task' : 'Add Task' }}</button>
+          <button type="submit" [disabled]="taskForm">{{ isEditing ? 'Update Task' : 'Add Task' }}</button>
         </form>
       </div>
     </div>

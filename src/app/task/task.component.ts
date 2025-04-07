@@ -24,7 +24,7 @@ export class TaskComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'asc';
   notification: string = '';
   notificationType: string = '';
-  
+  formSubmitted = false;
   // taskData = {
   //   title: '',
   //   assignedTo: '',
@@ -119,7 +119,7 @@ export class TaskComponent implements OnInit {
   
       this.notification = 'Task deleted successfully!';
       this.notificationType = 'error';
-      
+
       setTimeout(() => {
         this.notification = '';
       }, 3300);
@@ -129,6 +129,7 @@ export class TaskComponent implements OnInit {
   
 
   saveTask() {
+    this.formSubmitted = true;
     let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
   
     if (this.isEditing) {
@@ -162,6 +163,7 @@ export class TaskComponent implements OnInit {
     this.showModal = false;
     this.isEditing = false;
     this.editingTaskId = null;
+    this.formSubmitted = false;
   }
   
   

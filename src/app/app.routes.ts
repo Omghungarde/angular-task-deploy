@@ -20,10 +20,7 @@ export const routes: Routes = [
         [
             { path: 'home', component: HomeComponent, canActivate:[authGuard] },
             { path: 'project', component: ProjectComponent, canActivate:[authGuard] },
-            {
-                path:'task/:id',
-                component:TaskComponent, canActivate:[authGuard]
-            }
+            {path:'task/:id', component:TaskComponent, canActivate:[authGuard] },
         ]
     }
     

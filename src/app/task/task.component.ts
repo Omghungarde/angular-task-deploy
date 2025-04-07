@@ -1,6 +1,6 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusService } from '../service/status.service';
 
@@ -25,6 +25,7 @@ export class TaskComponent implements OnInit {
   notification: string = '';
   notificationType: string = '';
   formSubmitted = false;
+  submitted = false;
   // taskData = {
   //   title: '',
   //   assignedTo: '',
@@ -221,4 +222,11 @@ sortTasks() {
   this.tasks = this.statusService.sortTasksBy(this.sortField, this.sortOrder);
 }
 
+onsubmit(form:NgForm){
+  this.submitted=true;
+
+  if(form.valid){
+    this.saveTask();
+  }
+}
 }

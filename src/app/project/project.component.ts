@@ -1,6 +1,6 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusService } from '../service/status.service';
 
@@ -23,6 +23,7 @@ export class ProjectComponent implements OnInit {
   notification: string = '';
   notificationType: string = '';
   dateError = false;
+  submitted=false;
   projectData = {
     title: '',
     description: '',
@@ -207,5 +208,13 @@ export class ProjectComponent implements OnInit {
         : valB.toString().localeCompare(valA.toString());
     });
     return sortedProjects;
+  }
+
+  onsubmit(form:NgForm){
+    this.submitted=true;
+  
+    if(form.valid){
+      this.saveProject();
+    }
   }
 }

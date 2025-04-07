@@ -97,16 +97,16 @@
         <span class="close" (click)="showModal = false">&times;</span>
         <h3>{{ isEditing ? 'Edit Project' : 'Add New Project' }}</h3>
 
-        <form #projectForm="ngForm" (ngSubmit)="saveProject()" novalidate>
+        <form #projectForm="ngForm" (ngSubmit)="onsubmit(projectForm)" novalidate>
           <label>Title</label>
           <input type="text" [(ngModel)]="projectData.title" name="title" required 
           #title="ngModel"/>
-          <span *ngIf="title.invalid && title.touched" class="error">Title is required</span>
+          <span  *ngIf="title.invalid && (title.touched || submitted)" class="error">Title is required</span>
 
           <label>Description</label>
           <input type="text" [(ngModel)]="projectData.description" name="description" required 
           #description="ngModel"/>
-          <span *ngIf="description.invalid && description.touched" class="error">description is required</span>
+          <span *ngIf="description.invalid && (description.touched || submitted)" class="error">Assigned To is required</span>
 
           <label>Status</label>
           <select [(ngModel)]="projectData.status" name="status">
@@ -117,32 +117,32 @@
 
           <label>Program Manager</label>
           <input type="text" [(ngModel)]="projectData.programManager" name="programManager" required #programManager="ngModel" />
-          <span *ngIf="programManager.invalid && programManager.touched" class="error">Program Manager is required</span>
+          <span *ngIf="programManager.invalid && (programManager.touched || submitted)" class="error">Assigned To is required</span>
 
           <label>Project Manager</label>
           <input type="text" [(ngModel)]="projectData.projectManager" name="projectManager" required #projectManager="ngModel"/>
-          <span *ngIf="projectManager.invalid && projectManager.touched" class="error">Project Manager is required</span>
+          <span *ngIf="projectManager.invalid && (projectManager.touched || submitted)" class="error">Assigned To is required</span>
 
           <div class="date-group">
             <div>
               <label>Start Date</label>
               <input type="date" [(ngModel)]="projectData.startDate" name="startDate" required #startDate="ngModel" />
-              <span *ngIf="startDate.invalid && startDate.touched" class="error">Start Date is required.</span> 
             </div>
+              <span *ngIf="startDate.invalid && (startDate.touched || submitted)" class="error">Start Date is required.</span> 
 
             <div>
               <label>End Date</label>
               <input type="date" [(ngModel)]="projectData.endDate" name="endDate" required #endDate="ngModel" />
             </div>
-            <span *ngIf="endDate.invalid && endDate.touched" class="error">Start Date is required.</span>
+            <span *ngIf="endDate.invalid && (endDate.touched  || submitted)" class="error">End Date is required.</span>
             <span *ngIf="dateError" class="error">
               Start date must be before or equal to end date.
             </span>
-            
+
           </div>
           <label>Team Members</label>
           <input type="text" [(ngModel)]="projectData.teamMembers" name="teamMembers" />
-          <button type="submit" [disabled]="projectForm.invalid" >{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
+          <button type="submit">{{ isEditing ? 'Update Project' : 'Save Project' }}</button>
         </form>
       </div>
     </div>

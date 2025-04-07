@@ -90,14 +90,14 @@
         <span class="close" (click)="showModal = false">&times;</span>
         <h3>{{ isEditing ? 'Edit Task' : 'Add New Task' }}</h3>
   
-        <form #taskForm="ngForm" (ngSubmit)="saveTask()">
+        <form #taskForm="ngForm" (ngSubmit)="onsubmit(taskForm)">
           <label>Title</label>
           <input type="text" [(ngModel)]="taskData.title" name="title" required #title="ngModel"/>
-          <span *ngIf="title.invalid && title.touched" class="error">Title is required</span>
+          <span  *ngIf="title.invalid && (title.touched || submitted)" class="error">Title is required</span>
   
           <label>Assigned To</label>
           <input type="text" [(ngModel)]="taskData.assignedTo" name="assignedTo" required #assignedTo="ngModel" />
-          <span *ngIf="assignedTo.invalid && assignedTo.touched" class="error">Assigned To is required</span>
+          <span *ngIf="assignedTo.invalid && (assignedTo.touched || submitted)" class="error">Assigned To is required</span>
   
           <label>Status</label>
           <select [(ngModel)]="taskData.status" name="status">
@@ -108,18 +108,18 @@
   
   
           <label>Assigned User</label>
-          <input type="text" [(ngModel)]="taskData.assignedUser" name="assignedUser" #assignedUser="ngModel"/>
-          <span *ngIf="assignedUser.invalid && assignedUser.touched" class="error">Assigned User is required</span>
+          <input type="text" [(ngModel)]="taskData.assignedUser" name="assignedUser" required #assignedUser="ngModel"/>
+          <span *ngIf="assignedUser.invalid && (assignedUser.touched || submitted)" class="error">Assigned User is required</span>
   
           <label>Estimate</label>
           <input type="number" [(ngModel)]="taskData.estimate" name="estimate" required #estimate="ngModel" />
-          <span *ngIf="estimate.invalid && estimate.touched" class="error">Estimate time is required</span>
+          <span *ngIf="estimate.invalid && (estimate.touched || submitted)" class="error">Estimate time is required</span>
   
           <label>Time Spent</label>
-          <input type="number" [(ngModel)]="taskData.timeSpent" name="timeSpent" #timeSpent="ngModel" />
-          <span *ngIf="timeSpent.invalid && timeSpent.touched" class="error">TimeSpent time is required</span>
+          <input type="number" [(ngModel)]="taskData.timeSpent" name="timeSpent" #timeSpent="ngModel" required/>
+          <span *ngIf="timeSpent.invalid && (timeSpent.touched || submitted)" class="error">TimeSpent time is required</span>
   
-          <button type="submit" [disabled]="taskForm">{{ isEditing ? 'Update Task' : 'Add Task' }}</button>
+          <button type="submit" >{{ isEditing ? 'Update Task' : 'Add Task' }}</button>
         </form>
       </div>
     </div>

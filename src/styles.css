@@ -1,34 +1,6 @@
 * {
     user-select: none;
   }
-  /*
-  input, textarea, select {
-    user-select: auto;
-   }
-  .status-pending {
-    color: #ffc107;
-    font-weight: bold;
-  }
-  
-  .status-in-progress {
-    color: #007bff; 
-    font-weight: bold;
-  }
-  
-  .status-completed {
-    color: #28a745; 
-    font-weight: bold;
-  }
-
-  .status-overdue {
-    color: #520000;
-    font-weight: bold;
-  }
-  
-  .status-default {
-    color: #6c757d;
-    font-weight: bold;
-  } */
   .badge {
     padding: 5px 10px;
     border-radius: 12px;

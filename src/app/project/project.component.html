@@ -56,7 +56,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let project of projects">
+            <tr *ngFor="let project of projects"draggable="true"
+            (dragstart)="onProjectDragStart($event, project)"
+            (dragover)="onProjectDragOver($event,project)"
+            (drop)="onProjectDrop($event, project)"
+            [class.drag-over]="dragOverProjectId === project.id">
               <td  (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">{{ project.title }}</td>
               <td (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">{{ project.description }}</td>
               <td (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">

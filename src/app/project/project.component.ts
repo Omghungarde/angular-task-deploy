@@ -277,4 +277,38 @@ deleteProject(projectId: number) {
       this.saveProject();
     }
   }
+  draggedProject: any = null;
+dragOverProjectId: number | null = null;
+
+onProjectDragStart(event: DragEvent, project: any) {
+  this.draggedProject = project;
+  event.dataTransfer?.setData('text/plain', JSON.stringify(project));
+}
+
+onProjectDragOver(event: DragEvent, project: any) {
+  event.preventDefault();
+  this.dragOverProjectId = project.id;
+}
+
+onProjectDrop(event: DragEvent, targetProject: any) {
+  event.preventDefault();
+  this.dragOverProjectId = null;
+
+  if (!this.draggedProject || this.draggedProject.id === targetProject.id) return;
+
+  const draggedIndex = this.projects.findIndex(p => p.id === this.draggedProject.id);
+  const targetIndex = this.projects.findIndex(p => p.id === targetProject.id);
+
+  const updatedProjects = [...this.projects];
+  const [movedProject] = updatedProjects.splice(draggedIndex, 1);
+  updatedProjects.splice(targetIndex, 0, movedProject);
+
+  this.projects = updatedProjects;
+  this.saveProjectOrder(); // Save new order to localStorage
+}
+
+saveProjectOrder() {
+  localStorage.setItem('projects', JSON.stringify(this.projects));
+}
+
 }

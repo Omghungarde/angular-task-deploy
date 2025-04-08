@@ -103,54 +103,18 @@ export class StatusService {
   getProjects() {
     return this.projects;
   }
-
-  // 🟢 STEP 1: FILTER PROJECTS BY STATUS
   filterProjectsByStatus(status: string, username: string) {
     return this.getProjectsByUser(username).filter((p: any) =>
       status ? p.status === status : true
     );
   }
 
-  // 🟢 STEP 2: SEARCH PROJECTS
   searchProjects(query: string, username: string) {
     return this.getProjectsByUser(username).filter((project: any) =>
       project.title.toLowerCase().includes(query.toLowerCase()) ||
       project.createdBy.toLowerCase().includes(query.toLowerCase())
     );
-  }
-  
-
-  // 🟢 STEP 3: SORT PROJECTS
-  // sortProjectsBy(field: string, order: 'asc' | 'desc') {
-  //   return this.projects.sort((a, b) => {
-  //     let valA = a[field];
-  //   let valB = b[field];
-
-  //   if (!valA) valA = ''; // Handle missing values
-  //   if (!valB) valB = '';
-
-  //   // Fixing date sorting issue
-  //   if (field === 'date') {
-  //     let dateA = new Date(valA);
-  //     let dateB = new Date(valB);
-
-  //     if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
-  //       console.warn("Invalid date format", valA, valB);
-  //       return 0; // If date is invalid, keep the original order
-  //     }
-
-  //     return order === 'asc' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
-  //   }
-
-  //   // ✅ Sorting by string (e.g., project name)
-  //   if (typeof valA === 'string' && typeof valB === 'string') {
-  //     return order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
-  //   }
-
-  //   return 0;
-  // });
-    
-  // }
+  }  
 
   sortProjectsBy(field: string, order: 'asc' | 'desc', username: string) {
     const projects = this.getProjectsByUser(username);
@@ -173,6 +137,5 @@ export class StatusService {
     const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
     return allProjects.filter((p: any) => p.createdBy === username);
   }
-  
-  
+   
 }

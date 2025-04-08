@@ -22,8 +22,8 @@ export class LoginComponent {
     );
   
     if (user) {
-      localStorage.setItem('loggedInUser', JSON.stringify(user)); // Store logged-in user
-      this.router.navigate(['/project']); // Redirect to projects page
+      localStorage.setItem('loggedInUser', JSON.stringify(user)); 
+      this.router.navigate(['/project']);
     } else {
       alert('Invalid email or password');
     }

@@ -21,9 +21,6 @@ export class LayoutComponent {
       const parsedUser = JSON.parse(user);
       this.loggedInUser = this.capitalizeFirstLetter(parsedUser.username);
     }
-
-    // Set initial theme (light mode default)
-    document.body.classList.remove('dark-theme');
   }
 
   toggleMenu() {

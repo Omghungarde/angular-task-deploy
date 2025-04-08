@@ -144,10 +144,10 @@ export class ProjectComponent implements OnInit {
     if (!endDate) return 'N/A';
   
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to midnight
+    today.setHours(0, 0, 0, 0);
   
     const end = new Date(endDate);
-    end.setHours(0, 0, 0, 0); // Reset time to midnight
+    end.setHours(0, 0, 0, 0);
   
     const timeDiff = end.getTime() - today.getTime();
     const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));

@@ -1,5 +1,4 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css');
-
 * {
   margin: 0;
   padding: 0;
@@ -14,13 +13,6 @@ html, body {
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* .container {
-  min-height: 100vh; /* full height to apply background properly 
-  background-color: var(--bg-color);
-  padding: 1rem;
-}
-*/ 
 .container {
   max-width: 1100px;
   margin: auto;
@@ -29,7 +21,6 @@ html, body {
   min-height: 100vh;
 }
 
-/* Table Styles */
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -108,7 +99,6 @@ tr:hover {
   color: var(--text-color);
 }
 
-/* Add Task Button */
 .button-container {
   display: flex;
   justify-content: flex-end;
@@ -136,7 +126,6 @@ tr:hover {
   transform: translateY(-2px);
 }
 
-/* Modal */
 .modal {
   position: fixed;
   top: 0;
@@ -212,7 +201,6 @@ button[type="submit"]:hover {
   background: var(--btn-hover);
 }
 
-/* Status Classes */
 .status-pending {
   color: #ffc107;
   font-weight: bold;
@@ -226,7 +214,6 @@ button[type="submit"]:hover {
   font-weight: bold;
 }
 
-/* Notifications */
 .notification {
   position: fixed;
   top: 20px;
@@ -271,14 +258,12 @@ button[type="submit"]:hover {
   }
 }
 
-/* Error Message */
 .error {
   color: red;
   font-size: 13px;
   margin-top: 4px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .task-header {
     flex-direction: column;

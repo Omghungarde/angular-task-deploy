@@ -26,6 +26,7 @@ export class TaskComponent implements OnInit {
   notificationType: string = '';
   formSubmitted = false;
   submitted = false;
+  
   // taskData = {
   //   title: '',
   //   assignedTo: '',
@@ -52,7 +53,7 @@ export class TaskComponent implements OnInit {
     this.taskData = { 
       title: '',
       assignedTo: '',
-      status: 'Pending', // Default status
+      status: 'Pending', 
       assignedUser: '',
       estimate: '',
       timeSpent: '',
@@ -134,14 +135,12 @@ export class TaskComponent implements OnInit {
     let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
   
     if (this.isEditing) {
-      // Update the task in localStorage
       allTasks = allTasks.map((task: any) =>
         task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
       );
       this.notification = 'Task updated successfully!';
       this.notificationType = 'success';
     } else {
-      // Assign a unique ID based on the max existing ID
       const newId = allTasks.length ? Math.max(...allTasks.map((t: any) => t.id)) + 1 : 1;
       const newTask = {
         id: newId,
@@ -153,26 +152,16 @@ export class TaskComponent implements OnInit {
       this.notificationType = 'success';
     }
   
-    // Save back to localStorage
     localStorage.setItem('tasks', JSON.stringify(allTasks));
   
-    // Reload the tasks from storage
     this.loadTasks();
   
-    // Reset the form and modal
     this.taskData = {};
     this.showModal = false;
     this.isEditing = false;
     this.editingTaskId = null;
     this.formSubmitted = false;
   }
-  
-  
-//   // // Update task status
-//   // updateStatus(task: any, newStatus: string) {
-//   //   task.status = newStatus;
-//   // }
-
 
 getStatusClass(status: string): string {
   switch (status.toLowerCase()) {
@@ -194,16 +183,14 @@ filterTasks() {
 }
 
 searchTasks() {
-  const rawTasks = this.statusService.getTasks(); // Get all tasks again
+  const rawTasks = this.statusService.getTasks();
 
   let filtered = rawTasks.filter(task => task.projectId === this.projectId);
 
-  // Apply status filter if selected
   if (this.selectedStatus) {
     filtered = filtered.filter(task => task.status === this.selectedStatus);
   }
 
-  // Apply search filter if query exists
   if (this.searchQuery.trim()) {
     const query = this.searchQuery.trim().toLowerCase();
     filtered = filtered.filter(task =>
@@ -215,8 +202,6 @@ searchTasks() {
 
   this.tasks = filtered;
 }
-
-
 
 sortTasks() {
   this.tasks = this.statusService.sortTasksBy(this.sortField, this.sortOrder);

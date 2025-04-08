@@ -1,26 +1,19 @@
 <nav class="navbar">
-  <!-- Logo -->
   <div class="logo">Project Manager</div>
 
-  <!-- Hamburger for mobile -->
   <div class="hamburger" (click)="toggleMenu()">
     <span></span>
     <span></span>
     <span></span>
   </div>
-
-  <!-- Navigation links -->
   <ul class="nav-links" [ngClass]="{ 'active': isMenuOpen }">
     <li><a routerLink="/home">Home</a></li>
     <li><a routerLink="/project">Projects</a></li>
     <li><a routerLink="/task">Tasks</a></li>
   </ul>
-
-  <!-- Right Section: User + Toggle + Logout -->
+>
   <div class="navbar-actions">
     <h4 class="username">Hi, {{ loggedInUser }}</h4>
-
-    <!-- Dark Mode Toggle -->
     <div class="dark-toggle">
       <label class="switch">
         <input type="checkbox" [checked]="isDarkMode" (change)="toggleTheme()">
@@ -29,8 +22,6 @@
       <span class="mode-label">{{ isDarkMode ? 'Dark Mode' : 'Light Mode' }}</span>
     </div>
     
-
-    <!-- Logout Button -->
     <button class="logout-btn" (click)="logout()">Logout</button>
   </div>
 </nav>

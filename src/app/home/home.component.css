@@ -3,7 +3,7 @@
   text-align: center;
   background-color: var(--container-bg);
   color: var(--text-color);
-  min-height: 100vh; /* Make sure it fills screen */
+  min-height: 100vh;
 }
 
 .stats-cards {

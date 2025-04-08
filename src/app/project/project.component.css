@@ -1,14 +1,24 @@
+
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
-  background: #f9fafb;
-  color: #111827;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  min-height: 100vh;
+  padding: 24px 20px;
+  background-color: var(--container-bg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
+
 
 .project-header {
   display: flex;
@@ -21,7 +31,7 @@ body {
 .project-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color);
 }
 
 .filter-controls {
@@ -36,21 +46,22 @@ body {
   padding: 8px 12px;
   font-size: 14px;
   width: 180px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--button-border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--button-bg);
+  color: var(--text-color);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .filter-input:focus,
 .filter-select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 4px var(--accent-color);
 }
 
 .icon-btn {
-  background: #007bff;
+  background: var(--btn-bg);
   color: white;
   padding: 8px 12px;
   border: none;
@@ -64,7 +75,7 @@ body {
 }
 
 .icon-btn:hover {
-  background: #0056b3;
+  background: var(--btn-hover);
 }
 
 @media (max-width: 768px) {
@@ -88,32 +99,36 @@ body {
 }
 
 .card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px var(--shadow);
   padding: 24px;
   overflow-x: auto;
+  transition: background 0.3s;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 15px;
+  color: var(--text-color);
 }
 
 thead {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: var(--hover-bg);
+  color: var(--text-color);
 }
 
-th, td {
+th,
+td {
   padding: 16px 14px;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--button-border);
 }
 
 tr:hover {
-  background: #f9fafb;
+  background: var(--hover-bg);
+  transition: background 0.3s ease;
 }
 
 .status-cell span {
@@ -142,13 +157,13 @@ tr:hover {
 
 .button-container {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   margin-top: 1rem;
 }
 
 .add-project-btn {
-  background: #095fe9;
+  background: var(--btn-bg);
   color: white;
   padding: 12px 20px;
   border: none;
@@ -160,7 +175,7 @@ tr:hover {
 }
 
 .add-project-btn:hover {
-  background: #2563eb;
+  background: var(--btn-hover);
 }
 
 .edit-btn,
@@ -171,10 +186,11 @@ tr:hover {
   cursor: pointer;
   padding: 6px;
   transition: transform 0.2s;
+  color: var(--text-color);
 }
 
 .edit-btn:hover {
-  color: #3b82f6;
+  color: var(--accent-color);
   transform: scale(1.1);
 }
 
@@ -183,15 +199,7 @@ tr:hover {
   transform: scale(1.1);
 }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+/* Modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -203,7 +211,7 @@ tr:hover {
 }
 
 .modal-container {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 24px;
   width: 100%;
@@ -212,6 +220,7 @@ tr:hover {
   overflow-y: auto;
   position: relative;
   animation: fadeIn 0.3s ease-out;
+  color: var(--text-color);
 }
 
 .modal-container h3 {
@@ -229,24 +238,26 @@ tr:hover {
 .modal-container input,
 .modal-container select {
   padding: 10px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--button-border);
   border-radius: 8px;
   font-size: 14px;
-  background: #fff;
+  background: var(--button-bg);
+  color: var(--text-color);
 }
 
 .modal-container button {
   padding: 12px;
-  background: #2563eb;
-  color: #fff;
+  background: var(--btn-bg);
+  color: white;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   font-size: 15px;
+  transition: background 0.3s ease;
 }
 
 .modal-container button:hover {
-  background: #1d4ed8;
+  background: var(--btn-hover);
 }
 
 .close {
@@ -259,66 +270,42 @@ tr:hover {
 }
 
 .close:hover {
-  color: #111827;
+  color: var(--text-color);
 }
+
 .date-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .filters {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .filters input,
-  .filters select {
-    width: 100%;
-  }
-
-  .task-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-}
+/* Notification Toasts */
 .notification {
   position: fixed;
-  top: 20px; /* Start at the top of the screen */
-  right: -300px; /* Start off the screen on the right */
+  top: 20px;
+  right: -300px;
   display: flex;
   align-items: center;
-  background-color: #ffffff;
-  color: #fff;
+  background-color: var(--card-bg);
+  color: var(--text-color);
   padding: 12px 20px;
   border-radius: 8px;
-  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 8px 12px var(--shadow);
   z-index: 9999;
   max-width: 90%;
   box-sizing: border-box;
   transition: opacity 0.5s ease;
-  animation: pop-from-right 0.5s forwards, fade-out 0.3s 3s forwards; /* Pop in and fade-out */
+  animation: pop-from-right 0.5s forwards, fade-out 0.3s 3s forwards;
 }
 
 .notification.success {
-  background-color: #4CAF50; /* Green background for success */
+  background-color: #4CAF50;
+  color: white;
 }
 
 .notification.error {
-  background-color: #f44336; /* Red background for error */
+  background-color: #f44336;
+  color: white;
 }
 
 .notification .notification-icon {
@@ -330,6 +317,8 @@ tr:hover {
   font-size: 16px;
   font-weight: bold;
 }
+
+/* Animations */
 @keyframes pop-from-right {
   from {
     right: -300px;
@@ -350,8 +339,38 @@ tr:hover {
   }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .error {
   color: red;
   font-size: 13px;
   margin-top: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .task-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 }

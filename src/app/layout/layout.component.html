@@ -1,20 +1,29 @@
 <nav class="navbar">
+  <!-- Logo -->
   <div class="logo">Project Manager</div>
-  <h4 class="username">Welcome {{loggedInUser}}</h4>
-  
+
+  <!-- Hamburger for mobile -->
+  <div class="hamburger" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navigation links -->
   <ul class="nav-links" [ngClass]="{ 'active': isMenuOpen }">
-      <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/project">Projects</a></li>
-      <li><a routerLink="/task">Tasks</a></li>
-      <li><a routerLink="/logout" (click)="logout()">Logout</a></li>
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/project">Projects</a></li>
+    <li><a routerLink="/task">Tasks</a></li>
+    <li><a (click)="logout()">Logout</a></li>
   </ul>
 
-  <div class="hamburger" (click)="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+  <!-- User + Theme toggle -->
+  <div class="navbar-actions">
+    <h4 class="username">Welcome {{ loggedInUser }}</h4>
+    <button class="toggle-btn" (click)="toggleTheme()">
+      {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
+    </button>
   </div>
 </nav>
-<div>
-  <router-outlet></router-outlet> 
-</div>
+
+<router-outlet></router-outlet>

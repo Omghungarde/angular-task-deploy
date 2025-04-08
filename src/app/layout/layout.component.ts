@@ -10,23 +10,36 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 })
 export class LayoutComponent {
   isMenuOpen = false;
-  loggedInUser:any;
+  isDarkMode = false;
+  loggedInUser: string = '';
+
   constructor(private router: Router) {}
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
   ngOnInit() {
-    const user = localStorage.getItem('loggedInUser');  
+    const user = localStorage.getItem('loggedInUser');
     if (user) {
       const parsedUser = JSON.parse(user);
       this.loggedInUser = this.capitalizeFirstLetter(parsedUser.username);
     }
+
+    // Set initial theme (light mode default)
+    document.body.classList.remove('dark-theme');
   }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    document.body.classList.toggle('dark-theme', this.isDarkMode);
+  }
+
   logout() {
     localStorage.removeItem('loggedInUser');
     this.router.navigate(['/login']);
   }
+
   capitalizeFirstLetter(name: string): string {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }

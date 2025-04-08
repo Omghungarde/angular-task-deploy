@@ -20,4 +20,79 @@
     color: #fff;
     min-width: 80px;
   }
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #212529;
+    --navbar-bg: #ffffff;
+    --navbar-text: #212529;
+    --hover-bg: rgba(0, 0, 0, 0.05);
+    --accent-color: #007bff;
+    --button-bg: #f8f9fa;
+    --button-border: #ccc;
+    --card-bg: #ffffff;
+    --card-title: #1abc9c;
+    --card-text: #333333;
+    --btn-bg: #3498db;
+    --btn-hover: #2980b9;
+    --container-bg: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    
+  }
   
+  body.dark-theme {
+    --bg-color: #1e272e;
+    --text-color: #f1f1f1;
+    --navbar-bg: #2c3e50;
+    --navbar-text: #ffffff;
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --accent-color: #f1c40f;
+    --button-border: #f1f1f1;
+    --button-bg: #2a3a4b;
+    --card-bg: #1c1f26;
+    --card-title: #1abc9c;
+    --card-text: #e0e0e0;
+    --btn-bg: #2980b9;
+    --btn-hover: #1e6fa5;
+    --container-bg: #181a20;
+    --shadow: rgba(0, 0, 0, 0.4);
+  }
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  /* :root {
+    
+    --bg-color: #f9f9f9;
+    --text-color: #1e272e;
+    --card-bg: #ffffff;
+    --card-title: #1abc9c;
+    --card-text: #333333;
+    --btn-bg: #3498db;
+    --btn-hover: #2980b9;
+    --container-bg: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+  }
+  
+  body.dark-theme {
+   
+    --bg-color: #0f1115;
+    --text-color: #f1f1f1;
+    --card-bg: #1c1f26;
+    --card-title: #1abc9c;
+    --card-text: #e0e0e0;
+    --btn-bg: #2980b9;
+    --btn-hover: #1e6fa5;
+    --container-bg: #181a20;
+    --shadow: rgba(0, 0, 0, 0.4);
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  } */

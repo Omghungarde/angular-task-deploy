@@ -1,54 +1,56 @@
 .home-container {
-    padding: 40px 20px;
-    text-align: center;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .stats-cards {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 40px 0;
-    flex-wrap: wrap;
-  }
-  
-  .card {
-    background: #2c3e50;
-    color: white;
-    padding: 30px;
-    border-radius: 12px;
-    width: 240px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card h3 {
-    font-size: 36px;
-    color: #1abc9c;
-    margin-bottom: 10px;
-  }
-  
-  .card p {
-    font-size: 16px;
-    margin: 0;
-  }
-  
-  .quick-actions {
-    text-align: center;
-    margin-top: 30px;
-  }
-  
-  .btn {
-    background-color: #3498db;
-    border: none;
-    padding: 14px 26px;
-    color: white;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  
-  .btn:hover {
-    background-color: #2980b9;
-  }
-  
+  padding: 40px 20px;
+  text-align: center;
+  background-color: var(--container-bg);
+  color: var(--text-color);
+  min-height: 100vh; /* Make sure it fills screen */
+}
+
+.stats-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  padding: 30px;
+  border-radius: 12px;
+  width: 240px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card h3 {
+  font-size: 36px;
+  color: var(--card-title);
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.quick-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn {
+  background-color: var(--btn-bg);
+  border: none;
+  padding: 14px 26px;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover);
+}

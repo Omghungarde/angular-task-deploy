@@ -58,8 +58,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let project of projects">
-              <td (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">{{ project.title }}</td>
+            <tr *ngFor="let project of projects" (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">
+              <td >{{ project.title }}</td>
               <td>{{ project.description }}</td>
               <td>
                 <span [class]="statusService.getStatusClass(project.status)" class="status-badge">

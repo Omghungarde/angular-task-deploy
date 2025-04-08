@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusService } from '../service/status.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-project',
@@ -77,48 +78,94 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  saveProject() {
-    if (!this.projectData.title || !this.projectData.description || !this.projectData.startDate || !this.projectData.endDate || !this.projectData.teamMembers) {
-      this.showNotification('Please fill in all required fields.', 'error');
-      return;
-    }
-    const start = new Date(this.projectData.startDate);
-    const end = new Date(this.projectData.endDate);
-    if (start > end) {
-      this.showNotification('Start date must be before or equal to end date.', 'error');
-      return;
-    }
-  
-    let allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-  
-    if (this.isEditing && this.editingProjectId !== null) {
-      allProjects = allProjects.map((p: any) => {
-        if (p.id === this.editingProjectId) {
-          return {
-            ...p,
-            ...this.projectData,
-            teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim())
-          };
-        }
-        return p;
-      });
-      this.showNotification('Project updated successfully!', 'success');
-    } else {
-      const newProject = {
-        id: allProjects.length ? Math.max(...allProjects.map((p: { id: number }) => p.id)) + 1 : 1,
-        ...this.projectData,
-        createdBy: this.loggedInUser.username,
-        teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim()),
-        dueDate: this.projectData.dueDate || new Date().toISOString().split('T')[0]
-      };
-      allProjects.push(newProject);
-      this.showNotification('Project added successfully!', 'success');
-    }
-  
-    localStorage.setItem('projects', JSON.stringify(allProjects));
-    this.showModal = false;
-    this.loadProjects();
+
+saveProject() {
+  if (
+    !this.projectData.title ||
+    !this.projectData.description ||
+    !this.projectData.startDate ||
+    !this.projectData.endDate ||
+    !this.projectData.teamMembers
+  ) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Please fill in all required fields.',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true
+    });
+    return;
   }
+
+  const start = new Date(this.projectData.startDate);
+  const end = new Date(this.projectData.endDate);
+  if (start > end) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Start date must be before or equal to end date.',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true
+    });
+    return;
+  }
+
+  let allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+
+  if (this.isEditing && this.editingProjectId !== null) {
+    // Update project
+    allProjects = allProjects.map((p: any) => {
+      if (p.id === this.editingProjectId) {
+        return {
+          ...p,
+          ...this.projectData,
+          teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim())
+        };
+      }
+      return p;
+    });
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Project updated successfully!',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true
+    });
+  } else {
+    // Add new project
+    const newProject = {
+      id: allProjects.length ? Math.max(...allProjects.map((p: { id: number }) => p.id)) + 1 : 1,
+      ...this.projectData,
+      createdBy: this.loggedInUser.username,
+      teamMembers: this.projectData.teamMembers.split(',').map(m => m.trim()),
+      dueDate: this.projectData.dueDate || new Date().toISOString().split('T')[0]
+    };
+    allProjects.push(newProject);
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Project added successfully!',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true
+    });
+  }
+
+  // Save and reload
+  localStorage.setItem('projects', JSON.stringify(allProjects));
+  this.showModal = false;
+  this.loadProjects();
+}
+
   
 
   deleteProject(projectId: number) {

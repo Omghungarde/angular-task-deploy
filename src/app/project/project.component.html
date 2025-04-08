@@ -56,10 +56,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let project of projects" (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">
-              <td >{{ project.title }}</td>
-              <td>{{ project.description }}</td>
-              <td>
+            <tr *ngFor="let project of projects">
+              <td  (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">{{ project.title }}</td>
+              <td (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">{{ project.description }}</td>
+              <td (click)="openTask(project.id)" class="clickable" style="cursor: pointer;">
                 <span [class]="statusService.getStatusClass(project.status)" class="status-badge">
                   {{ project.status }}
                 </span>

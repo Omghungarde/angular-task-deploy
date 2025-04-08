@@ -168,22 +168,35 @@ saveProject() {
 
   
 
-  deleteProject(projectId: number) {
-    if (confirm('Are you sure you want to delete this project?')) {
+deleteProject(projectId: number) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "This will permanently delete the project!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
       let allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
       allProjects = allProjects.filter((project: any) => project.id !== projectId);
       localStorage.setItem('projects', JSON.stringify(allProjects));
       this.loadProjects();
-      this.showNotification('Project deleted successfully!', 'error');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Project deleted successfully!',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true
+      });
     }
-  }
-  showNotification(message: string, type: string) {
-    this.notification = message;
-    this.notificationType = type;
-    setTimeout(() => {
-      this.notification = '';
-    }, 3000);
-  }
+  });
+}
   openTask(projectId: number) {
     this.router.navigate(['/task', projectId]);
   }

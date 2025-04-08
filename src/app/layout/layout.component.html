@@ -14,15 +14,24 @@
     <li><a routerLink="/home">Home</a></li>
     <li><a routerLink="/project">Projects</a></li>
     <li><a routerLink="/task">Tasks</a></li>
-    <li><a (click)="logout()">Logout</a></li>
   </ul>
 
-  <!-- User + Theme toggle -->
+  <!-- Right Section: User + Toggle + Logout -->
   <div class="navbar-actions">
-    <h4 class="username">Welcome {{ loggedInUser }}</h4>
-    <button class="toggle-btn" (click)="toggleTheme()">
-      {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
-    </button>
+    <h4 class="username">Hi, {{ loggedInUser }}</h4>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-toggle">
+      <label class="switch">
+        <input type="checkbox" [checked]="isDarkMode" (change)="toggleTheme()">
+        <span class="slider round"></span>
+      </label>
+      <span class="mode-label">{{ isDarkMode ? 'Dark Mode' : 'Light Mode' }}</span>
+    </div>
+    
+
+    <!-- Logout Button -->
+    <button class="logout-btn" (click)="logout()">Logout</button>
   </div>
 </nav>
 

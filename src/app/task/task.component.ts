@@ -259,4 +259,37 @@ onsubmit(form:NgForm){
     this.saveTask();
   }
 }
+draggedTask: any;
+
+onDragStart(event: DragEvent, task: any) {
+  this.draggedTask = task;
+  event.dataTransfer?.setData('text/plain', JSON.stringify(task));
+}
+
+onDragOver(event: DragEvent) {
+  event.preventDefault(); // Allow dropping
+}
+
+onDrop(event: DragEvent, targetTask: any) {
+  event.preventDefault();
+
+  if (!this.draggedTask || this.draggedTask.id === targetTask.id) return;
+
+  const draggedIndex = this.tasks.findIndex(t => t.id === this.draggedTask.id);
+  const targetIndex = this.tasks.findIndex(t => t.id === targetTask.id);
+
+  // Reorder tasks array
+  const updatedTasks = [...this.tasks];
+  const [movedTask] = updatedTasks.splice(draggedIndex, 1);
+  updatedTasks.splice(targetIndex, 0, movedTask);
+
+  this.tasks = updatedTasks;
+  this.saveTaskOrder();
+}
+
+saveTaskOrder() {
+  // Save new task order to localStorage
+  localStorage.setItem('tasks', JSON.stringify(this.tasks));
+}
+
 }

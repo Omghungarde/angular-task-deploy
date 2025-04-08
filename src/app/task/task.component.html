@@ -52,7 +52,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let task of tasks">
+          <tr *ngFor="let task of tasks"draggable="true"
+          (dragstart)="onDragStart($event, task)"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event, task)" >
             <td>{{ task.title }}</td>
             <td>{{ task.assignedTo }}</td>
             <td class="status-cell">

@@ -40,7 +40,7 @@
   }
   
   body.dark-theme {
-    --bg-color: #1e272e;
+    --bg-color: #2a2e2e;
     --text-color: #f1f1f1;
     --navbar-bg: #2c3e50;
     --navbar-text: #ffffff;
@@ -53,7 +53,7 @@
     --card-text: #e0e0e0;
     --btn-bg: #2980b9;
     --btn-hover: #1e6fa5;
-    --container-bg: #181a20;
+    --container-bg: #2e2e2e;
     --shadow: rgba(0, 0, 0, 0.4);
   }
   body {
@@ -96,3 +96,81 @@
     margin: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
   } */
+
+  /* DARK MODE SPECIFIC OVERRIDES */
+body.dark-theme .project-card {
+  background: linear-gradient(145deg, #2c3e50, #1e272e);
+  color: var(--text-color);
+  box-shadow: 0 8px 22px var(--shadow);
+}
+
+body.dark-theme .card-title,
+body.dark-theme .description,
+body.dark-theme .meta p,
+body.dark-theme .dates p,
+body.dark-theme .team p {
+  color: var(--text-color);
+}
+
+body.dark-theme .status-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+}
+
+body.dark-theme .edit-btn,
+body.dark-theme .delete-btn {
+  color: var(--text-color);
+}
+
+body.dark-theme .edit-btn:hover {
+  color: var(--accent-color);
+}
+
+body.dark-theme .delete-btn:hover {
+  color: #ff6b6b;
+}
+
+body.dark-theme .add-project-btn {
+  background: linear-gradient(135deg, #34495e, #1e3c72);
+  color: white;
+}
+
+body.dark-theme .add-project-btn:hover {
+  background: linear-gradient(135deg, #1e3c72, #16263b);
+}
+
+/* Optional for modal */
+body.dark-theme .modal-container {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+body.dark-theme .modal-container input,
+body.dark-theme .modal-container select {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border-color: var(--button-border);
+}
+
+body.dark-theme .modal-container button {
+  background-color: var(--btn-bg);
+}
+
+body.dark-theme .modal-container button:hover {
+  background-color: var(--btn-hover);
+}
+
+body.dark-theme .close:hover {
+  color: var(--accent-color);
+}
+
+/* Notification overrides */
+body.dark-theme .notification {
+  background: #2ecc71;
+  color: white;
+}
+
+body.dark-theme .notification.error {
+  background: #e74c3c;
+}

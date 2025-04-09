@@ -36,7 +36,7 @@
         </button>
       </div>
     </div>
-    <div class="card">
+    <!-- <div class="card">
       <div class="table-container">
         <table>
           <thead>
@@ -87,6 +87,54 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div> -->
+    
+    <div class="card-list">
+      <div
+        class="project-card"
+        *ngFor="let project of projects"
+        (click)="openTask(project.id)"
+        draggable="true"
+        (dragstart)="onProjectDragStart($event, project)"
+        (dragover)="onProjectDragOver($event, project)"
+        (drop)="onProjectDrop($event, project)"
+        [class.drag-over]="dragOverProjectId === project.id"
+      >
+        <div class="card-header">
+          <div class="card-title">{{ project.title }}</div>
+          <span class="status-badge" [class]="statusService.getStatusClass(project.status)">
+            {{ project.status }}
+          </span>
+        </div>
+    
+        <p class="description">{{ project.description }}</p>
+    
+        <div class="meta">
+          <p><strong>Program Manager:</strong> {{ project.programManager }}</p>
+          <p><strong>Project Manager:</strong> {{ project.projectManager }}</p>
+          <p><strong>Created By:</strong> {{ project.createdBy }}</p>
+        </div>
+    
+        <div class="dates">
+          <p><strong>Start:</strong> {{ project.startDate }}</p>
+          <p><strong>Due:</strong> {{ project.dueDays }}</p>
+          <p><strong>End:</strong> {{ project.endDate }}</p>
+        </div>
+    
+        <div class="team">
+          <p><strong>Team:</strong> {{ project.teamMembers.join(', ') }}</p>
+          <p><strong>Size:</strong> {{ project.teamMembers.length }}</p>
+        </div>
+    
+        <div class="action-buttons">
+          <button class="edit-btn" (click)="openModal(true, project); $event.stopPropagation()">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteProject(project.id); $event.stopPropagation()">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div class="button-container mt-4">
@@ -150,3 +198,7 @@
     </div>
   </div>
 </body>
+
+
+<!-- Project Cards -->
+

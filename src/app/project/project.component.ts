@@ -248,13 +248,47 @@ deleteProject(projectId: number) {
       dueDays: this.calculateDueDays(project.endDate)
     }));
   }
-    sortProjects() {
-      const sorted = this.statusService.sortProjectsBy(this.sortField, this.sortOrder, this.loggedInUser.username);
-      this.projects = sorted.map((project:any) => ({
-        ...project,
-        dueDays: this.calculateDueDays(project.endDate)
-      }));
+  sortProjects() {
+  const allProjects = this.statusService.getProjects();
+  let filtered = allProjects.filter(project => project.createdBy === this.loggedInUser.username);
+
+  // Apply active filters (status and search)
+  if (this.selectedStatus) {
+    filtered = filtered.filter(project => project.status === this.selectedStatus);
+  }
+
+  if (this.searchQuery.trim()) {
+    const query = this.searchQuery.toLowerCase();
+    filtered = filtered.filter(project =>
+      project.title?.toLowerCase().includes(query) ||
+      project.createdBy?.toLowerCase().includes(query)
+    );
+  }
+
+  // Sort the filtered list
+  filtered.sort((a: any, b: any) => {
+    const valA = a[this.sortField] || '';
+    const valB = b[this.sortField] || '';
+
+    if (this.sortField === 'startDate') {
+      return this.sortOrder === 'asc'
+        ? new Date(valA).getTime() - new Date(valB).getTime()
+        : new Date(valB).getTime() - new Date(valA).getTime();
     }
+
+    return this.sortOrder === 'asc'
+      ? valA.toString().localeCompare(valB.toString())
+      : valB.toString().localeCompare(valA.toString());
+  });
+
+  // Update the UI list
+  this.projects = filtered.map(project => ({
+    ...project,
+    dueDays: this.calculateDueDays(project.endDate)
+  }));
+}
+
+  
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     this.sortProjects();

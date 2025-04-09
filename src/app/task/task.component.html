@@ -38,43 +38,38 @@
         </div>
     </div>
     
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Assigned To</th>
-            <th>Status</th>
-            <th>Assigned User</th>
-            <th>Estimate</th>
-            <th>Time Spent</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let task of tasks"draggable="true"
-          (dragstart)="onDragStart($event, task)"
-          (dragover)="onDragOver($event)"
-          (drop)="onDrop($event, task)" >
-            <td>{{ task.title }}</td>
-            <td>{{ task.assignedTo }}</td>
-            <td class="status-cell">
-              <span [class]="getStatusClass(task.status)">
-                {{ task.status }}
-              </span>
-            </td>
-            <td>{{ task.assignedUser }}</td>
-            <td>{{ task.estimate }}</td>
-            <td>{{ task.timeSpent }}</td>
-            <td class="action-buttons">
-              <button class="ediit-btn" (click)="editTask(task)"><i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="delete-btn ms-3" (click)="deleteTask(task.id)"><i class="fa-solid fa-trash-can"></i></button>
-            </td>
-          </tr>
-        </tbody>
-  
-      </table>
+    <div class="task-card-list">
+      <div
+        class="task-card"
+        *ngFor="let task of tasks"
+        draggable="true"
+        (dragstart)="onDragStart($event, task)"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event, task)"
+      >
+        <div class="task-card-header">
+          <h3 class="task-title">{{ task.title }}</h3>
+          <span [class]="getStatusClass(task.status)" class="task-status">{{ task.status }}</span>
+        </div>
+    
+        <div class="task-details">
+          <p><strong>Assigned To:</strong> {{ task.assignedTo }}</p>
+          <p><strong>Assigned User:</strong> {{ task.assignedUser }}</p>
+          <p><strong>Estimate:</strong> {{ task.estimate }} hrs</p>
+          <p><strong>Time Spent:</strong> {{ task.timeSpent }} hrs</p>
+        </div>
+    
+        <div class="task-actions">
+          <button class="edit-btn" (click)="editTask(task)">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteTask(task.id)">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
     </div>
+    
   
   
     <div class="button-container">

@@ -58,7 +58,7 @@
   }
 
   .icon-btn {
-    background: var(--accent-color);
+    background: var(--btn-hover);
     border: none;
     color: white;
     padding: 10px;
@@ -68,7 +68,7 @@
   }
 
   .icon-btn:hover {
-    background: var(--btn-hover);
+    background-color: #4f8acc;
   }
 
   /* Cards */

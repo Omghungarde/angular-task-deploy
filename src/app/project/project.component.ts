@@ -47,7 +47,7 @@ export class ProjectComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-
+    
     this.loadProjects();
   }
 
@@ -200,20 +200,30 @@ deleteProject(projectId: number) {
   openTask(projectId: number) {
     this.router.navigate(['/task', projectId]);
   }
+
   calculateDueDays(endDate: string): string {
-    if (!endDate) return 'N/A';
+  if (!endDate) return 'N/A';
+
+  // Parse endDate safely
+  const endParts = endDate.split('-');
+  if (endParts.length !== 3) return 'Invalid date';
+
+  const [year, month, day] = endParts.map(Number);
+  const end = new Date(year, month - 1, day); // JS months are 0-based
+  end.setHours(0, 0, 0, 0); // Normalize to start of day
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
+  const diffInMs = end.getTime() - today.getTime();
+  const daysLeft = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+  if (daysLeft === 0) return 'Due Today';
+  if (daysLeft > 0) return `${daysLeft} day${daysLeft > 1 ? 's' : ''} left`;
+  return `Overdue by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) > 1 ? 's' : ''}`;
+}
+
   
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-  
-    const end = new Date(endDate);
-    end.setHours(0, 0, 0, 0);
-  
-    const timeDiff = end.getTime() - today.getTime();
-    const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  
-    return daysLeft >= 0 ? `${daysLeft} days left` : `Overdue by ${Math.abs(daysLeft)} days`;
-  }
   filterProjects() {
     this.searchProjects();
   }

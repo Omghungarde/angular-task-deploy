@@ -68,7 +68,8 @@
   }
 
   .icon-btn:hover {
-    background-color: #4f8acc;
+    background-color:rgb(15, 153, 245);
+    /* background-color: #4f8acc; */
   }
 
   /* Cards */

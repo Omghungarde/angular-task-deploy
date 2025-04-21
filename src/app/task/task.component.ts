@@ -118,8 +118,6 @@ saveTask() {
     allTasks = allTasks.map((task: any) =>
       task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
     );
-
-
     Swal.fire({
       icon: 'success',
       title: 'Task updated successfully!',
@@ -137,8 +135,6 @@ saveTask() {
       projectId: this.projectId
     };
     allTasks.push(newTask);
-
-   
     Swal.fire({
       icon: 'success',
       title: 'Task added successfully!',
@@ -149,9 +145,7 @@ saveTask() {
       timerProgressBar: true
     });
   }
-
   localStorage.setItem('tasks', JSON.stringify(allTasks));
-
   this.loadTasks();
   this.taskData = {};
   this.showModal = false;
@@ -230,7 +224,6 @@ onDrop(event: DragEvent, targetTask: any) {
   const draggedIndex = this.tasks.findIndex(t => t.id === this.draggedTask.id);
   const targetIndex = this.tasks.findIndex(t => t.id === targetTask.id);
 
-  // Reorder tasks array
   const updatedTasks = [...this.tasks];
   const [movedTask] = updatedTasks.splice(draggedIndex, 1);
   updatedTasks.splice(targetIndex, 0, movedTask);

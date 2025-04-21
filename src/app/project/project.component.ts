@@ -56,7 +56,7 @@ export class ProjectComponent implements OnInit {
     this.projects = allProjects.filter((project: any) => project.createdBy === this.loggedInUser.username)
     .map((project: any) => ({
       ...project,
-      dueDays: this.calculateDueDays(project.endDate)  // Calculate dueDays dynamically
+      dueDays: this.calculateDueDays(project.endDate)  
     }));
     this.projects = this.statusService.getProjectsByUser(this.loggedInUser.username)
     .map((p: any) => ({
@@ -252,7 +252,6 @@ deleteProject(projectId: number) {
   const allProjects = this.statusService.getProjects();
   let filtered = allProjects.filter(project => project.createdBy === this.loggedInUser.username);
 
-  // Apply active filters (status and search)
   if (this.selectedStatus) {
     filtered = filtered.filter(project => project.status === this.selectedStatus);
   }
@@ -265,7 +264,6 @@ deleteProject(projectId: number) {
     );
   }
 
-  // Sort the filtered list
   filtered.sort((a: any, b: any) => {
     const valA = a[this.sortField] || '';
     const valB = b[this.sortField] || '';
@@ -281,7 +279,6 @@ deleteProject(projectId: number) {
       : valB.toString().localeCompare(valA.toString());
   });
 
-  // Update the UI list
   this.projects = filtered.map(project => ({
     ...project,
     dueDays: this.calculateDueDays(project.endDate)
@@ -293,26 +290,26 @@ deleteProject(projectId: number) {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     this.sortProjects();
   }
-  sortProjectsBy(field: string, order: 'asc' | 'desc', createdBy: string): any[] {
-    const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
-    const userProjects = allProjects.filter((p:any) => p.createdBy === createdBy);
+  // sortProjectsBy(field: string, order: 'asc' | 'desc', createdBy: string): any[] {
+  //   const allProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+  //   const userProjects = allProjects.filter((p:any) => p.createdBy === createdBy);
   
-    const sortedProjects = userProjects.sort((a:any, b:any) => {
-      const valA = a[field] || '';
-      const valB = b[field] || '';
+  //   const sortedProjects = userProjects.sort((a:any, b:any) => {
+  //     const valA = a[field] || '';
+  //     const valB = b[field] || '';
   
-      if (field === 'startDate') {
-        return order === 'asc'
-          ? new Date(valA).getTime() - new Date(valB).getTime()
-          : new Date(valB).getTime() - new Date(valA).getTime();
-      }
+  //     if (field === 'startDate') {
+  //       return order === 'asc'
+  //         ? new Date(valA).getTime() - new Date(valB).getTime()
+  //         : new Date(valB).getTime() - new Date(valA).getTime();
+  //     }
   
-      return order === 'asc'
-        ? valA.toString().localeCompare(valB.toString())
-        : valB.toString().localeCompare(valA.toString());
-    });
-    return sortedProjects;
-  }
+  //     return order === 'asc'
+  //       ? valA.toString().localeCompare(valB.toString())
+  //       : valB.toString().localeCompare(valA.toString());
+  //   });
+  //   return sortedProjects;
+  // }
 
   onsubmit(form:NgForm){
     this.submitted=true;
@@ -321,7 +318,10 @@ deleteProject(projectId: number) {
       this.saveProject();
     }
   }
-  draggedProject: any = null;
+
+
+
+draggedProject: any = null;
 dragOverProjectId: number | null = null;
 
 onProjectDragStart(event: DragEvent, project: any) {
@@ -348,7 +348,7 @@ onProjectDrop(event: DragEvent, targetProject: any) {
   updatedProjects.splice(targetIndex, 0, movedProject);
 
   this.projects = updatedProjects;
-  this.saveProjectOrder(); // Save new order to localStorage
+  this.saveProjectOrder(); // Save localStorage
 }
 
 saveProjectOrder() {

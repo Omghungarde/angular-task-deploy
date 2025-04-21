@@ -27,20 +27,8 @@ export class TaskComponent implements OnInit {
   formSubmitted = false;
   submitted = false;
 
-  // taskData = {
-  //   title: '',
-  //   assignedTo: '',
-  //   status: 'Pending',
-  //   assignedUser: '',
-  //   estimate: '',
-  //   timeSpent: ''
-  // };
-
-  
   constructor(private route: ActivatedRoute, private router: Router, public statusService: StatusService) {}
   
-  
-
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.projectId = Number(params.get('id'));
@@ -77,26 +65,6 @@ export class TaskComponent implements OnInit {
     this.tasks = [...this.allProjectTasks];
   }
 
-  // addTask() {
-  //   const allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    
-  //   const newTask = {
-  //     id: allTasks.length + 1,
-  //     title: this.taskData.title,
-  //     assignedTo: this.taskData.assignedTo,
-  //     status: this.taskData.status,
-  //     assignedUser: this.taskData.assignedUser,
-  //     estimate: this.taskData.estimate,
-  //     timeSpent: this.taskData.timeSpent,
-  //     projectId: this.projectId // Assign the project ID to the task
-  //   };
-  
-  //   allTasks.push(newTask);
-  //   localStorage.setItem('tasks', JSON.stringify(allTasks));
-  //   this.loadTasks();
-  // }
-  
-
   updateStatus(taskId: number, newStatus: string) {
     let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     allTasks = allTasks.map((task: any) => {
@@ -122,20 +90,12 @@ deleteTask(taskId: number | string) {
     confirmButtonText: 'Yes, delete it!'
   }).then((result) => {
     if (result.isConfirmed) {
-      // 1. Get tasks from localStorage
       const tasksFromStorage = localStorage.getItem('tasks') || '[]';
       let allTasks = JSON.parse(tasksFromStorage);
-
-      // 2. Remove the task
       allTasks = allTasks.filter((task: any) => task.id !== taskId);
-
-      // 3. Save updated task list
       localStorage.setItem('tasks', JSON.stringify(allTasks));
-
-      // 4. Reload tasks to update UI
       this.loadTasks();
 
-      // 5. Show SweetAlert toast notification
       Swal.fire({
         icon: 'success',
         title: 'Task deleted!',
@@ -149,22 +109,17 @@ deleteTask(taskId: number | string) {
   });
 }
 
-  
-  
-
 saveTask() {
   this.formSubmitted = true;
-
-  // Get existing tasks
   let allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
   if (this.isEditing) {
-    // Update existing task
+
     allTasks = allTasks.map((task: any) =>
       task.id === this.editingTaskId ? { ...task, ...this.taskData } : task
     );
 
-    // Show toast for update
+
     Swal.fire({
       icon: 'success',
       title: 'Task updated successfully!',
@@ -175,7 +130,6 @@ saveTask() {
       timerProgressBar: true
     });
   } else {
-    // Create new task
     const newId = allTasks.length ? Math.max(...allTasks.map((t: any) => t.id)) + 1 : 1;
     const newTask = {
       id: newId,
@@ -184,7 +138,7 @@ saveTask() {
     };
     allTasks.push(newTask);
 
-    // Show toast for add
+   
     Swal.fire({
       icon: 'success',
       title: 'Task added successfully!',
@@ -196,10 +150,8 @@ saveTask() {
     });
   }
 
-  // Save to localStorage
   localStorage.setItem('tasks', JSON.stringify(allTasks));
 
-  // Reload and reset form
   this.loadTasks();
   this.taskData = {};
   this.showModal = false;
@@ -267,7 +219,7 @@ onDragStart(event: DragEvent, task: any) {
 }
 
 onDragOver(event: DragEvent) {
-  event.preventDefault(); // Allow dropping
+  event.preventDefault(); 
 }
 
 onDrop(event: DragEvent, targetTask: any) {
@@ -288,7 +240,6 @@ onDrop(event: DragEvent, targetTask: any) {
 }
 
 saveTaskOrder() {
-  // Save new task order to localStorage
   localStorage.setItem('tasks', JSON.stringify(this.tasks));
 }
 

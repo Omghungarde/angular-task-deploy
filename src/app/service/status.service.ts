@@ -97,9 +97,6 @@ export class StatusService {
   this.projects = allProjects.filter((p: any) => p.createdBy === this.loggedInUser.username);
   }
 
-  private saveProjects() {
-    localStorage.setItem('projects', JSON.stringify(this.projects));
-  }
   getProjects() {
     return this.projects;
   }

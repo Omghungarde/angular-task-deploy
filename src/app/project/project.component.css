@@ -7,7 +7,6 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Container */
   .container {
     max-width: 1200px;
     margin: auto;
@@ -15,7 +14,6 @@
     min-height: 100vh;
   }
 
-  /* Header */
   .project-header {
     display: flex;
     justify-content: space-between;
@@ -30,7 +28,6 @@
     color: var(--text-color);
   }
 
-  /* Filters aligned right */
   .filter-controls {
     display: flex;
     flex-wrap: wrap;
@@ -71,7 +68,6 @@
     background-color: #4f8acc;
   }
 
-  /* Cards */
   .card-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -97,7 +93,6 @@
   }
 
 
-  /* Card contents */
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -142,7 +137,6 @@
     margin: 0;
   }
 
-  /* Buttons */
   .action-buttons {
     display: flex;
     justify-content: flex-end;
@@ -175,12 +169,10 @@
     color: #ef4444 !important;
   }
 
-  /* Drag effect */
   .drag-over {
     border: 2px dashed var(--accent-color);
   }
 
-  /* Button container */
   .button-container {
     margin-top: 2rem;
     display: flex;
@@ -205,7 +197,6 @@
     background: linear-gradient(to right, #0056b3, #009edb);
   }
 
-  /* Notification */
   .notification {
     position: fixed;
     top: 20px;
@@ -237,7 +228,6 @@
     }
   }
 
-  /* Responsive */
   @media (max-width: 768px) {
     .project-header {
       flex-direction: column;
@@ -254,7 +244,6 @@
     }
   }
 
-  /* === MODAL OVERLAY === */
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -263,8 +252,8 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    padding: 20px; /* Adds padding for smaller screens */
-    overflow: auto; /* In case content gets larger */
+    padding: 20px; 
+    overflow: auto; 
   }
   .modal-container {
     background-color: var(--card-bg);
@@ -273,22 +262,21 @@
     border-radius: 16px;
     width: 100%;
     max-width: 500px;
-    max-height: 90vh; /* LIMIT HEIGHT */
-    overflow-y: auto; /* SCROLL INTERNALLY IF NEEDED */
+    max-height: 90vh; 
+    overflow-y: auto; 
     box-shadow: 0 12px 28px var(--shadow);
     position: relative;
     animation: slideUp 0.4s ease;
     box-sizing: border-box;
     scrollbar-width: thin;
   }
-  /* === FORM STYLES === */
+ 
 .modal-container form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Label */
 .modal-container label {
   font-weight: 600;
   font-size: 14px;
@@ -296,7 +284,6 @@
   margin-bottom: 4px;
 }
 
-/* Input & Select */
 .modal-container input,
 .modal-container select {
   padding: 10px 14px;
@@ -317,7 +304,6 @@
   box-shadow: 0 0 5px var(--accent-color);
 }
 
-/* === DATE INPUT GROUP === */
 .date-group {
   display: flex;
   flex-wrap: wrap;
@@ -331,7 +317,6 @@
   flex-direction: column;
 }
 
-/* === BUTTON === */
 .modal-container button[type="submit"] {
   background: linear-gradient(135deg, var(--btn-bg), var(--btn-hover));
   border: none;
@@ -350,7 +335,6 @@
   background: linear-gradient(135deg, var(--btn-hover), var(--btn-bg));
 }
 
-/* === ERROR MESSAGE === */
 .error {
   color: #ff4d4f;
   font-size: 13px;
@@ -358,7 +342,6 @@
   margin-bottom: 4px;
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 600px) {
   .modal-container {
     padding: 20px 16px;
@@ -386,13 +369,11 @@
   border-radius: 8px;
 }
 
-/* === MAKE FORM ELEMENTS FLEXIBLE === */
 .modal-container form input,
 .modal-container form select {
   min-height: 42px;
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 600px) {
   .modal-container {
     max-width: 95%;
